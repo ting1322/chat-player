@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+div #app {
+    display: inline-block;
+}
+div #live-chat {
+    display: inline-block;
+    overflow: scroll;
+    width: 500px;
+    height: 720px;
+}
+div.live-chat-item span{
+    vertical-align: top;
+}
+img.emoji {
+    width: 2rem;
+}
+.c_time { color:gray; }
+.c_name { color:blue; }
+    </style>
+    <title>{{title}} - Local</title>
+  </head>
+  <body>
+    <div id="app">
+      <video id='video1' width="1280" controls>
+        <source src="{{video}}" type="{{video-type}}">
+      </video>
+      <div id="live-chat"></div>
+      <div id="timestamp"></div>
+    </div>
+    <div style="display:none">
+      <div id="live-chat-item-template" class="live-chat-item">
+        <span class="c_time">00:00:00</span><span> </span>
+        <span class="c_name">Unknown Name</span><span>: </span>
+        <span class="c_content">Unknown content</span>
+      </div>
+      <div id="timestamp-template" class="timestamp">
+        <span class="t_time">00:00:00</span><span> </span>
+        <span class="t_title">Unknown</span>
+      </div>
+      <pre id="setlist-json-text">{{setlist-json}}</pre>
+      <pre id="live-chat-json-text">{{live-chat-json}}</pre>
+    </div>
+    <script src="play-live-chat.js"></script>
+  </body>
+</html>
