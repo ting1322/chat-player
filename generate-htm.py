@@ -38,9 +38,9 @@ def main():
         print ('not found input file: ' + chat_json_filename)
         sys.exit(-1)
 
-    app_dir = os.path.split(__file__)[0]
-    video_dir = os.path.split(video_filename)[0]
-    out_dir = os.path.split(os.path.abspath(output_filename))[0]
+    app_dir = os.path.normpath(os.path.split(__file__)[0])
+    video_dir = os.path.normpath(os.path.split(video_filename)[0])
+    out_dir = os.path.normpath(os.path.split(os.path.abspath(output_filename))[0])
 
     video_filename = os.path.relpath(video_filename, start=out_dir)
 
