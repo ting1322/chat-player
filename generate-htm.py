@@ -9,6 +9,7 @@ import pathlib
 import re
 import requests
 import sys
+import shutil
 
 def main():
     cmd_parser = argparse.ArgumentParser(description='generate a html to play video with live-chat.json')
@@ -37,8 +38,14 @@ def main():
         print ('not found input file: ' + chat_json_filename)
         sys.exit(-1)
 
+    app_dir = os.path.split(__file__)[0]
+    video_dir = os.path.split(video_filename)[0]
+    out_dir = os.path.split(os.path.abspath(output_filename))[0]
+
+    video_filename = os.path.relpath(video_filename, start=out_dir)
+
     if setlist_filename is None:
-        setlist_filename = os.path.join(os.path.split(video_filename)[0], 'set-list.txt')
+        setlist_filename = os.path.join(video_dir, 'set-list.txt')
         if not os.path.exists(setlist_filename):
             setlist_filename = None
 
@@ -57,12 +64,13 @@ def main():
 
     setlist_json_text = convert_setlist_to_json(setlist_filename)
 
-    with open('template.htm.in', 'r') as in_file, \
+    template_htm = os.path.join(app_dir, 'template.htm.in')
+    with open(template_htm, 'r') as in_file, \
          open(chat_json_filename, 'r', encoding='utf-8') as inline_file, \
          open(output_filename, 'w') as out_file:
         live_chat_json_lines = '\n'
         for line in inline_file.readlines():
-            live_chat_json_lines += preprocess_json(line, cmd)
+            live_chat_json_lines += preprocess_json(line, cmd, out_dir)
         for line in in_file.readlines():
             text = line
             text = text.replace('{{video}}', str(video_filename))
@@ -71,6 +79,9 @@ def main():
             text = text.replace('{{live-chat-json}}', live_chat_json_lines)
             text = text.replace('{{setlist-json}}', setlist_json_text)
             out_file.write(text)
+    if out_dir != app_dir:
+        shutil.copy(os.path.join(app_dir, 'play-live-chat.js'),
+                    os.path.join(out_dir, 'play-live-chat.js'))
 
 def convert_setlist_to_json(setlist_filename):
     if setlist_filename is None:
@@ -91,15 +102,15 @@ def convert_setlist_to_json(setlist_filename):
             arr.append(obj)
     return json.dumps(arr)
 
-def preprocess_json(line, cmd):
+def preprocess_json(line, cmd, out_dir):
     if cmd.no_download_pic:
         return line
 
     if len(line) < 10:
         return line
 
-    if not os.path.exists('images'):
-        os.mkdir('images')
+    if not os.path.exists(os.path.join(out_dir, 'images')):
+        os.mkdir(os.path.join(out_dir, 'images'))
 
     js_root = json.loads(line)
     replayChat = js_root['replayChatItemAction']
@@ -124,7 +135,7 @@ def preprocess_json(line, cmd):
                             filename += '.svg'
                         else:
                             filename += '.png'
-                        http_download_image(filename, image_url)
+                        http_download_image(os.path.join(out_dir, filename), image_url)
                         thumbnail['url'] = filename
 
     return json.dumps(js_root) + '\n'
