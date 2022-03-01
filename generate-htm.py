@@ -14,7 +14,7 @@ import shutil
 def main():
     cmd_parser = argparse.ArgumentParser(description='generate a html to play video with live-chat.json')
     cmd_parser.add_argument('video', type=pathlib.Path, help='video file (webm or mp4)')
-    cmd_parser.add_argument('-c', '--chat-json', type=pathlib.Path, help='live chat json file (download by yt-dlp')
+    cmd_parser.add_argument('-c', '--chat-json', type=pathlib.Path, help='live chat json file (download by yt-dlp)')
     cmd_parser.add_argument('-s', '--set-list', type=pathlib.Path, help='時間軸 txt 檔')
     cmd_parser.add_argument('-o', '--output', type=pathlib.Path, help='output html file')
     cmd_parser.add_argument('--no-download-pic', action='store_true', help='不要把聊天室貼圖抓下來 (每次開網頁使用youtube檔案)')
