@@ -1,5 +1,7 @@
 # chat-player
 
+[下載][https://github.com/ting1322/chat-player/releases/download/v0.1.0/chat-player-v0.1.0.zip]
+
 yt-dlp 下載的 XXX.live-chat.json 聊天室紀錄檔，可以用這個專案播放。
 拉動影片時間軸，同步捲動聊天室。
 暫停播放狀態，點聊天室的紀錄兩下，把影片跳到指定時間。
