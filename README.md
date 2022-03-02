@@ -75,7 +75,8 @@ template.htm.in: 產生 htm 的 template。
    ````
    文字檔如果放在 XXX.webm 旁邊，命名為 set-list.txt，會自動讀入。
    其他檔案名稱可以用 --set-list FILENAME.txt 輸入
-5. 測試過 久遠たま、苺咲べりぃ 的影片。如果其他人的影片有問題，給我 json 檔看看。
+5. 測試過 久遠たま、伊冬ユナ、苺咲べりぃ的影片。如果其他人的影片有問題，給我 json 檔看看。
+   有貓耳的話，處理速度會比較快。
    
 # implement detail
 
