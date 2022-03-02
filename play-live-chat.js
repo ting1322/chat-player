@@ -26,7 +26,7 @@ function prettyFormatTime(timeInMs) {
 }
 
 function create_chat_item(json_text) {
-    if (json_text.length == 0)
+    if (json_text.length < 10)
         return;
     var json;
     try {
@@ -141,7 +141,6 @@ function init_setlist_from_embedded() {
         return;
     }
     for (const chapter of json) {
-        console.log(chapter);
         const node = timestamp_templ.cloneNode(true);
         node.removeAttribute('id');
         t_time = node.getElementsByClassName('t_time')[0];

@@ -138,7 +138,9 @@ def preprocess_json(line, cmd, out_dir):
                         http_download_image(os.path.join(out_dir, filename), image_url)
                         thumbnail['url'] = filename
 
-    return json.dumps(js_root) + '\n'
+    text = json.dumps(js_root) + '\n'
+    text = text.replace('</', '\\u003C/')
+    return text
 
 def http_download_image(filename, image_url):
     if os.path.exists(filename):
