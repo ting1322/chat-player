@@ -51,7 +51,7 @@ function create_chat_item(json_text) {
         console.log('error: not found videoOffsetTimeMsec');
         return;
     }
-    node.setAttribute('time_in_ms', timeInMs);
+    c_time.setAttribute('time_in_ms', timeInMs);
     
     var hasText = false;
     for (const action of json.replayChatItemAction.actions) {
@@ -113,7 +113,7 @@ function create_chat_item(json_text) {
         chat_array.push(timeInMs);
         c_time.innerHTML = prettyFormatTime(timeInMs);
         chat_div.appendChild(node);
-        node.ondblclick=comment_double_click;
+        c_time.onclick = comment_time_click;
     }
 }
 
@@ -148,13 +148,13 @@ function init_setlist_from_embedded() {
         t_title = node.getElementsByClassName('t_title')[0];
         t_time.innerHTML = prettyFormatTime(chapter.time_in_ms);
         t_title.innerHTML = chapter.title;
-        node.setAttribute('time_in_ms', chapter.time_in_ms);
+        t_time.setAttribute('time_in_ms', chapter.time_in_ms);
         timestamp_div.appendChild(node)
-        node.onclick = timestamp_click;
+        t_time.onclick = timestamp_click;
     }
 }
 
-function comment_double_click(eventArg) {
+function comment_time_click(eventArg) {
     const element = eventArg.currentTarget;
     const timeInMs = parseInt(element.getAttribute('time_in_ms'));
     video1.fastSeek(timeInMs / 1000);
