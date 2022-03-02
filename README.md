@@ -43,10 +43,21 @@ optional arguments:
 輸出檔案預設在當前工作目錄，檔名為影片檔 + .htm。
 json 檔案預設是影片檔名 + live_chat.json，這也是 yt-dlp 下載下來預設的檔名。
 
-# 安裝環境
+# 執行環境
+
+我這邊的環境是
+
+- Ubuntu 21.10
+- Python 3.9
+- Firefox 97.0
+
+如果有問題，先檢查 python 版本，然後是網頁瀏覽器。
 
 解壓縮得到 generate-htm.py, play-live-chat.js, template.htm.in 就是全部檔案。
-電腦必須先安裝 python 3.9 以上版本。
+
+generate-htm.py: 用來產生 htm 檔，並下載emoji貼圖。
+play-live-chat.js: htm 網頁開啟時，載入 json 聊天室內容，並同步時間軸。
+template.htm.in: 產生 htm 的 template。
 
 # 補充說明
 
@@ -64,9 +75,7 @@ json 檔案預設是影片檔名 + live_chat.json，這也是 yt-dlp 下載下�
    ````
    文字檔如果放在 XXX.webm 旁邊，命名為 set-list.txt，會自動讀入。
    其他檔案名稱可以用 --set-list FILENAME.txt 輸入
-5. 我的環境是 Linux Ubuntu 21.10, python 3.9, firefox 97.0。
-   反應問題請附上軟體環境。
-6. 測試過 久遠たま、苺咲べりぃ 的影片。如果其他人的影片有問題，給我 json 檔看看。
+5. 測試過 久遠たま、苺咲べりぃ 的影片。如果其他人的影片有問題，給我 json 檔看看。
    
 # implement detail
 
@@ -81,5 +90,3 @@ json 檔案預設是影片檔名 + live_chat.json，這也是 yt-dlp 下載下�
 
 所以目前實做方式: 所有檔案都嵌入同一個 htm 檔案，讓瀏覽器開啟本機檔案。
 影片 seek 沒問題，文字轉 json 沒問題。
-
-聯絡方式: 到 discord 「GuildCQ 傳教士公會」 tag 猫耳大好き

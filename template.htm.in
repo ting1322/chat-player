@@ -45,6 +45,7 @@ img.emoji {
       </div>
       <pre id="setlist-json-text">{{setlist-json}}</pre>
       <pre id="live-chat-json-text">{{live-chat-json}}</pre>
+      <a href="https://github.com/ting1322/chat-player">this project</a>
     </div>
     <script src="play-live-chat.js"></script>
   </body>
