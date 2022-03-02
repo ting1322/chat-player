@@ -195,10 +195,11 @@ function sync_live_chat_work() {
     setTimeout(sync_live_chat_work, 500);
 }
 
-//video1.onplay = function (play) {
-//
-//}
-// init_js_from_http();
+video1.onseeked = function() {
+    if (video1.paused) {
+        sync_live_chat();
+    }
+}
 
 init_js_from_embedded();
 init_setlist_from_embedded();
