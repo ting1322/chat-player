@@ -25,7 +25,11 @@ function prettyFormatTime(timeInMs) {
     return str;
 }
 
-function create_chat_item(json_text) {
+async function wait(timeInMs) {
+    await new Promise(resolve => setTimeout(resolve, timeInMs));
+}
+
+async function create_chat_item(json_text) {
     if (json_text.length < 10)
         return;
     var json;
@@ -117,14 +121,20 @@ function create_chat_item(json_text) {
     }
 }
 
-function init_js_from_embedded() {
+async function init_js_from_embedded() {
     const pre = document.getElementById('live-chat-json-text');
     const text = pre.innerHTML;
     var json_lines = text.split(/\r?\n/);
 
-    // chat_div.innerHTML = json_lines[2];
+    var idx = 0;
     for (const json_line of json_lines) {
         create_chat_item(json_line);
+        idx += 1;
+        // 由於 JSON.parse 需要時間，每 256 次就放開 thread 50ms
+        // 讓其他UI能夠更新
+        if ((idx & 0xFF) == 0) {
+            await wait(50);
+        }
     }
 }
 
