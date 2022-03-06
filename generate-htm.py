@@ -8,8 +8,9 @@ import os
 import pathlib
 import re
 import requests
-import sys
 import shutil
+import sys
+import urllib.parse
 
 def main():
     cmd_parser = argparse.ArgumentParser(description='generate a html to play video with live-chat.json')
@@ -73,7 +74,7 @@ def main():
             live_chat_json_lines += preprocess_json(line, cmd, out_dir)
         for line in in_file.readlines():
             text = line
-            text = text.replace('{{video}}', str(video_filename))
+            text = text.replace('{{video}}', urllib.parse.quote(str(video_filename)))
             text = text.replace('{{title}}', title)
             text = text.replace('{{video-type}}', video_type)
             text = text.replace('{{live-chat-json}}', live_chat_json_lines)
