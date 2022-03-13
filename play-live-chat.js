@@ -3,6 +3,7 @@ const video1 = document.getElementById('video1');
 const chat_div = document.getElementById('live-chat');
 const timestamp_div = document.getElementById('timestamp');
 const chat_templ = document.getElementById('live-chat-item-template');
+const sc_templ = document.getElementById('live-chat-sc-template');
 const timestamp_templ = document.getElementById('timestamp-template');
 const chat_array = [];
 
@@ -61,7 +62,7 @@ async function create_chat_item(json_text) {
             if ('liveChatTextMessageRenderer' in actionItem) {
                 node = render_liveChatTextMessage(actionItem.liveChatTextMessageRenderer, timeInMs);
             } else if ('liveChatPaidMessageRenderer' in actionItem) {
-
+                node = render_liveChatPaidMessage(actionItem.liveChatPaidMessageRenderer, timeInMs);
             }
         }
     }
@@ -130,6 +131,87 @@ function render_liveChatTextMessage(liveChatTextMessageRenderer, timeInMs)
         return node;
     }
     return null;
+}
+
+function render_liveChatPaidMessage(liveChatPaidMessageRenderer, timeInMs)
+{
+    var hasText = false;
+    var node = sc_templ.cloneNode(true);
+    node.removeAttribute('id');
+    c_header = node.getElementsByClassName('header')[0];
+    c_text = node.getElementsByClassName('text')[0];
+    c_name = node.getElementsByClassName('name')[0];
+    c_paid = node.getElementsByClassName('paid')[0];
+    c_time = node.getElementsByClassName('time')[0];
+    c_time.setAttribute('time_in_ms', timeInMs);
+
+    if (!('message' in liveChatPaidMessageRenderer)) {
+        return;
+    }
+    if (!('runs' in liveChatPaidMessageRenderer.message)) {
+        return;
+    }
+
+    c_header.style.backgroundColor = toColor(liveChatPaidMessageRenderer.headerBackgroundColor);
+    c_header.style.color = toColor(liveChatPaidMessageRenderer.headerTextColor);
+    c_text.style.backgroundColor = toColor(liveChatPaidMessageRenderer.bodyBackgroundColor);
+    c_text.style.color = toColor(liveChatPaidMessageRenderer.bodyTextColor);
+
+    if ('purchaseAmountText' in liveChatPaidMessageRenderer &&
+        'simpleText' in liveChatPaidMessageRenderer.purchaseAmountText) {
+        c_paid.innerHTML = liveChatPaidMessageRenderer.purchaseAmountText.simpleText;
+    }
+
+    const runs = liveChatPaidMessageRenderer.message.runs;
+    c_text.innerHTML = "";
+    for (const run of runs) {
+        if ('text' in run) {
+            span = document.createElement('span');
+            span.innerHTML = run.text;
+            c_text.appendChild(span);
+            hasText = true;
+        }
+        else if ('emoji' in run) {
+            const emoji = run.emoji;
+            var image_url = "";
+            if ('image' in emoji && 'thumbnails' in emoji.image) {
+                thumbnails = emoji.image.thumbnails;
+                image_url = thumbnails[thumbnails.length-1].url;
+                img = document.createElement('img');
+                img.setAttribute('src', image_url);
+                img.setAttribute('class', 'emoji');
+                //img.setAttribute('width', '1em');
+                c_text.appendChild(img);
+                hasText = true;
+            }
+        } else {
+            console.log('unknown message');
+        }
+    }
+    if ('authorName' in liveChatPaidMessageRenderer) {
+        const authorName = liveChatPaidMessageRenderer.authorName;
+        if ('simpleText' in authorName) {
+            c_name.innerHTML = authorName.simpleText;
+        } else {
+            console.log('unknown authorName');
+        }
+    }
+    if (hasText)
+    {
+        c_time.innerHTML = prettyFormatTime(timeInMs);
+        c_time.onclick = comment_time_click;
+        return node;
+    }
+    return null;
+}
+
+function toColor(num) {
+    num >>>= 0;
+    var b = num & 0xFF,
+        g = (num & 0xFF00) >>> 8,
+        r = (num & 0xFF0000) >>> 16,
+        a = ( (num & 0xFF000000) >>> 24 ) / 255 ;
+    return "rgba(" + [r, g, b, a].join(",") + ")";
 }
 
 async function init_js_from_embedded() {

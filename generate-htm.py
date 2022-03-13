@@ -120,9 +120,16 @@ def preprocess_json(line, cmd, out_dir):
     for action in replayChat['actions']:
         if 'addChatItemAction' in action:
             addChatItem = action['addChatItemAction']['item']
-            if not 'liveChatTextMessageRenderer' in addChatItem:
+            render = None
+            if 'liveChatTextMessageRenderer' in addChatItem:
+                render = addChatItem['liveChatTextMessageRenderer']
+            elif 'liveChatPaidMessageRenderer' in addChatItem:
+                render = addChatItem['liveChatPaidMessageRenderer']
+            if render is None:
                 continue
-            runs = addChatItem['liveChatTextMessageRenderer']['message']['runs']
+            if not 'message' in render:
+                continue
+            runs = render['message']['runs']
             for run in runs:
                 if 'emoji' in run:
                     emoji = run['emoji']

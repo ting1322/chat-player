@@ -17,6 +17,10 @@ div #live-chat {
 div.live-chat-item span{
     vertical-align: top;
 }
+div.sc-block {
+    display: inline-block;
+    width: 75%;
+}
 img.emoji {
     width: 2rem;
 }
@@ -38,6 +42,16 @@ img.emoji {
         <span class="c_time">00:00:00</span><span> </span>
         <span class="c_name">Unknown Name</span><span>: </span>
         <span class="c_content">Unknown content</span>
+      </div>
+      <div id="live-chat-sc-template" class="live-chat-sc">
+        <span class="time">00:00:00</span><span> </span>
+        <div class="sc-block">
+          <div class="header">
+            <div class="name">NAME</div>
+            <div class="paid">PAID</div>
+          </div>
+          <div class="text">TEXT</div>
+        </div>
       </div>
       <div id="timestamp-template" class="timestamp">
         <span class="t_time">00:00:00</span><span> </span>
