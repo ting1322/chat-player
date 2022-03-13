@@ -276,10 +276,13 @@ function sync_live_chat() {
             break;
         }
     }
-    i = i - 5;
-    if (i < 0) i=0;
 
-    const div_y = chat_div.getBoundingClientRect().y;
+    i += 2;
+    if (i == chat_array.length) {
+        i = chat_array.length - 1;
+    }
+
+    const div_y = chat_div.getBoundingClientRect().bottom;
     const child_y = chat_div.children[i].getBoundingClientRect().y;
     const scrollTop = chat_div.scrollTop;
     
