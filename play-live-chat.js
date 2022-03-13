@@ -142,7 +142,7 @@ function render_liveChatPaidMessage(liveChatPaidMessageRenderer, timeInMs)
     c_text = node.getElementsByClassName('text')[0];
     c_name = node.getElementsByClassName('name')[0];
     c_paid = node.getElementsByClassName('paid')[0];
-    c_time = node.getElementsByClassName('time')[0];
+    c_time = node.getElementsByClassName('c_time')[0];
     c_time.setAttribute('time_in_ms', timeInMs);
 
     if (!('message' in liveChatPaidMessageRenderer)) {
