@@ -19,6 +19,7 @@ div.live-chat-item span{
 }
 div.sc-block {
     display: inline-block;
+    margin: 5px;
     width: 75%;
 }
 img.emoji {
@@ -50,7 +51,7 @@ img.emoji {
             <div class="name">NAME</div>
             <div class="paid">PAID</div>
           </div>
-          <div class="text">TEXT</div>
+          <div class="text"></div>
         </div>
       </div>
       <div id="timestamp-template" class="timestamp">

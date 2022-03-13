@@ -145,13 +145,6 @@ function render_liveChatPaidMessage(liveChatPaidMessageRenderer, timeInMs)
     c_time = node.getElementsByClassName('c_time')[0];
     c_time.setAttribute('time_in_ms', timeInMs);
 
-    if (!('message' in liveChatPaidMessageRenderer)) {
-        return;
-    }
-    if (!('runs' in liveChatPaidMessageRenderer.message)) {
-        return;
-    }
-
     c_header.style.backgroundColor = toColor(liveChatPaidMessageRenderer.headerBackgroundColor);
     c_header.style.color = toColor(liveChatPaidMessageRenderer.headerTextColor);
     c_text.style.backgroundColor = toColor(liveChatPaidMessageRenderer.bodyBackgroundColor);
@@ -162,30 +155,33 @@ function render_liveChatPaidMessage(liveChatPaidMessageRenderer, timeInMs)
         c_paid.innerHTML = liveChatPaidMessageRenderer.purchaseAmountText.simpleText;
     }
 
-    const runs = liveChatPaidMessageRenderer.message.runs;
-    c_text.innerHTML = "";
-    for (const run of runs) {
-        if ('text' in run) {
-            span = document.createElement('span');
-            span.innerHTML = run.text;
-            c_text.appendChild(span);
-            hasText = true;
-        }
-        else if ('emoji' in run) {
-            const emoji = run.emoji;
-            var image_url = "";
-            if ('image' in emoji && 'thumbnails' in emoji.image) {
-                thumbnails = emoji.image.thumbnails;
-                image_url = thumbnails[thumbnails.length-1].url;
-                img = document.createElement('img');
-                img.setAttribute('src', image_url);
-                img.setAttribute('class', 'emoji');
-                //img.setAttribute('width', '1em');
-                c_text.appendChild(img);
+    if ('message' in liveChatPaidMessageRenderer &&
+        'runs' in liveChatPaidMessageRenderer.message) {
+        const runs = liveChatPaidMessageRenderer.message.runs;
+        c_text.innerHTML = "";
+        for (const run of runs) {
+            if ('text' in run) {
+                span = document.createElement('span');
+                span.innerHTML = run.text;
+                c_text.appendChild(span);
                 hasText = true;
             }
-        } else {
-            console.log('unknown message');
+            else if ('emoji' in run) {
+                const emoji = run.emoji;
+                var image_url = "";
+                if ('image' in emoji && 'thumbnails' in emoji.image) {
+                    thumbnails = emoji.image.thumbnails;
+                    image_url = thumbnails[thumbnails.length-1].url;
+                    img = document.createElement('img');
+                    img.setAttribute('src', image_url);
+                    img.setAttribute('class', 'emoji');
+                    //img.setAttribute('width', '1em');
+                    c_text.appendChild(img);
+                    hasText = true;
+                }
+            } else {
+                console.log('unknown message');
+            }
         }
     }
     if ('authorName' in liveChatPaidMessageRenderer) {
@@ -196,13 +192,9 @@ function render_liveChatPaidMessage(liveChatPaidMessageRenderer, timeInMs)
             console.log('unknown authorName');
         }
     }
-    if (hasText)
-    {
-        c_time.innerHTML = prettyFormatTime(timeInMs);
-        c_time.onclick = comment_time_click;
-        return node;
-    }
-    return null;
+    c_time.innerHTML = prettyFormatTime(timeInMs);
+    c_time.onclick = comment_time_click;
+    return node;
 }
 
 function toColor(num) {
@@ -277,12 +269,11 @@ function sync_live_chat() {
         }
     }
 
-    i += 2;
     if (i == chat_array.length) {
         i = chat_array.length - 1;
     }
 
-    const div_y = chat_div.getBoundingClientRect().bottom;
+    const div_y = chat_div.getBoundingClientRect().bottom - 100;
     const child_y = chat_div.children[i].getBoundingClientRect().y;
     const scrollTop = chat_div.scrollTop;
     
