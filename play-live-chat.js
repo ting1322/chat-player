@@ -39,11 +39,6 @@ async function create_chat_item(json_text) {
         console.log('parse json error: ' + json_text);
         return;
     }
-    var node = chat_templ.cloneNode(true);
-    node.removeAttribute('id');
-    c_content = node.getElementsByClassName('c_content')[0];
-    c_name = node.getElementsByClassName('c_name')[0];
-    c_time = node.getElementsByClassName('c_time')[0];
     if (!('replayChatItemAction' in json))
         return;
     var timeInMs = -1;
@@ -55,70 +50,86 @@ async function create_chat_item(json_text) {
         console.log('error: not found videoOffsetTimeMsec');
         return;
     }
-    c_time.setAttribute('time_in_ms', timeInMs);
     
+    var node;
+    if (json.replayChatItemAction.actions.length > 0) {
+        const action = json.replayChatItemAction.actions[0];
+        if ('addChatItemAction' in action &&
+            'item' in action.addChatItemAction) {
+
+            const actionItem = action.addChatItemAction.item;
+            if ('liveChatTextMessageRenderer' in actionItem) {
+                node = render_liveChatTextMessage(actionItem.liveChatTextMessageRenderer, timeInMs);
+            } else if ('liveChatPaidMessageRenderer' in actionItem) {
+
+            }
+        }
+    }
+    
+    if (node != null) {
+        chat_array.push(timeInMs);
+        chat_div.appendChild(node);
+    }
+}
+
+function render_liveChatTextMessage(liveChatTextMessageRenderer, timeInMs)
+{
     var hasText = false;
-    for (const action of json.replayChatItemAction.actions) {
-        if (!('addChatItemAction' in action)) {
-            continue;
-        }
-        if (!('item' in action.addChatItemAction)) {
-            continue;
-        }
+    var node = chat_templ.cloneNode(true);
+    node.removeAttribute('id');
+    c_content = node.getElementsByClassName('c_content')[0];
+    c_name = node.getElementsByClassName('c_name')[0];
+    c_time = node.getElementsByClassName('c_time')[0];
+    c_time.setAttribute('time_in_ms', timeInMs);
 
-        const actionItem = action.addChatItemAction.item;
-        if (!('liveChatTextMessageRenderer' in actionItem)) {
-            continue;
-        }
-        if (!('message' in actionItem.liveChatTextMessageRenderer)) {
-            continue;
-        }
-        if (!('runs' in actionItem.liveChatTextMessageRenderer.message)) {
-            continue;
-        }
+    if (!('message' in liveChatTextMessageRenderer)) {
+        return;
+    }
+    if (!('runs' in liveChatTextMessageRenderer.message)) {
+        return;
+    }
 
-        const runs = actionItem.liveChatTextMessageRenderer.message.runs;
-        c_content.innerHTML = "";
-        for (const run of runs) {
-            if ('text' in run) {
-                span = document.createElement('span');
-                span.innerHTML = run.text;
-                c_content.appendChild(span);
+    const runs = liveChatTextMessageRenderer.message.runs;
+    c_content.innerHTML = "";
+    for (const run of runs) {
+        if ('text' in run) {
+            span = document.createElement('span');
+            span.innerHTML = run.text;
+            c_content.appendChild(span);
+            hasText = true;
+        }
+        else if ('emoji' in run) {
+            const emoji = run.emoji;
+            var image_url = "";
+            if ('image' in emoji && 'thumbnails' in emoji.image) {
+                thumbnails = emoji.image.thumbnails;
+                image_url = thumbnails[thumbnails.length-1].url;
+                img = document.createElement('img');
+                img.setAttribute('src', image_url);
+                img.setAttribute('class', 'emoji');
+                //img.setAttribute('width', '1em');
+                c_content.appendChild(img);
                 hasText = true;
             }
-            else if ('emoji' in run) {
-                const emoji = run.emoji;
-                var image_url = "";
-                if ('image' in emoji && 'thumbnails' in emoji.image) {
-                    thumbnails = emoji.image.thumbnails;
-                    image_url = thumbnails[thumbnails.length-1].url;
-                    img = document.createElement('img');
-                    img.setAttribute('src', image_url);
-                    img.setAttribute('class', 'emoji');
-                    //img.setAttribute('width', '1em');
-                    c_content.appendChild(img);
-                    hasText = true;
-                }
-            } else {
-                console.log('unknown message');
-            }
-        }
-        if ('authorName' in actionItem.liveChatTextMessageRenderer) {
-            const authorName = actionItem.liveChatTextMessageRenderer.authorName;
-            if ('simpleText' in authorName) {
-                c_name.innerHTML = authorName.simpleText;
-            } else {
-                console.log('unknown authorName');
-            }
+        } else {
+            console.log('unknown message');
         }
     }
-    
-    if (hasText) {
-        chat_array.push(timeInMs);
+    if ('authorName' in liveChatTextMessageRenderer) {
+        const authorName = liveChatTextMessageRenderer.authorName;
+        if ('simpleText' in authorName) {
+            c_name.innerHTML = authorName.simpleText;
+        } else {
+            console.log('unknown authorName');
+        }
+    }
+    if (hasText)
+    {
         c_time.innerHTML = prettyFormatTime(timeInMs);
-        chat_div.appendChild(node);
         c_time.onclick = comment_time_click;
+        return node;
     }
+    return null;
 }
 
 async function init_js_from_embedded() {
