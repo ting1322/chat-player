@@ -1,6 +1,7 @@
 #! /usr/bin/python3
 # -*- coding:utf-8; -*-
 
+from glob import glob
 from hashlib import blake2b
 import argparse
 import json
@@ -14,23 +15,39 @@ import urllib.parse
 
 def main():
     cmd_parser = argparse.ArgumentParser(description='generate a html to play video with live-chat.json')
-    cmd_parser.add_argument('video', type=pathlib.Path, help='video file (webm or mp4)')
+    cmd_parser.add_argument('path', type=pathlib.Path, help='video file (webm or mp4), or directory (find *.webm and *.json recursive)')
     cmd_parser.add_argument('-c', '--chat-json', type=pathlib.Path, help='live chat json file (download by yt-dlp)')
     cmd_parser.add_argument('-s', '--set-list', type=pathlib.Path, help='時間軸 txt 檔')
-    cmd_parser.add_argument('-o', '--output', type=pathlib.Path, help='output html file')
+    cmd_parser.add_argument('-o', '--output', type=pathlib.Path, help='output html file, 不指定就是目前工作目錄跟影片同檔名的htm')
     cmd_parser.add_argument('--no-download-pic', action='store_true', help='不要把聊天室貼圖抓下來 (每次開網頁使用youtube檔案)')
     cmd = cmd_parser.parse_args()
 
-    video_filename = cmd.video
+    input_path = cmd.path
     chat_json_filename = cmd.chat_json
     output_filename = cmd.output
     setlist_filename = cmd.set_list
-    title = os.path.basename(os.path.splitext(video_filename)[0])
 
+    if os.path.isfile(input_path):
+        process_video(cmd, input_path, chat_json_filename, output_filename, setlist_filename)
+    elif os.path.isdir(input_path):
+        for fn in glob(os.path.join(input_path, '**/*.webm'), recursive=True):
+            chat_json = os.path.splitext(fn)[0] + '.live_chat.json'
+            if os.path.exists(chat_json):
+                print (fn)
+                print (chat_json)
+                process_video(cmd, fn, chat_json)
+        
+
+def process_video(cmd,
+                  video_filename:str,
+                  chat_json_filename:str=None,
+                  output_filename:str=None,
+                  setlist_filename:str=None):
+    title = os.path.basename(os.path.splitext(video_filename)[0])
     if chat_json_filename is None:
-        chat_json_filename = os.path.splitext(cmd.video)[0] + '.live_chat.json'
+        chat_json_filename = os.path.splitext(video_filename)[0] + '.live_chat.json'
     if output_filename is None:
-        output_filename = os.path.basename(cmd.video) + '.htm'
+        output_filename = os.path.basename(video_filename) + '.htm'
 
     if not os.path.exists(video_filename):
         print ('not found input file: ' + video_filename)
