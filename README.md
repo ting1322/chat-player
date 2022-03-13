@@ -1,4 +1,4 @@
-# [下載](https://github.com/ting1322/chat-player/releases/download/last/chat-player.zip)
+# [下載](https://github.com/ting1322/chat-player/releases/latest/download/chat-player.zip)
 
 yt-dlp 下載的 XXX.live-chat.json 聊天室紀錄檔，可以用這個專案播放。
 
