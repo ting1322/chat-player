@@ -30,7 +30,8 @@ def main():
     if os.path.isfile(input_path):
         process_video(cmd, input_path, chat_json_filename, output_filename, setlist_filename)
     elif os.path.isdir(input_path):
-        for fn in glob(os.path.join(input_path, '**/*.webm'), recursive=True):
+        for fn in glob(os.path.join(input_path, '**/*.webm'), recursive=True) + \
+                  glob(os.path.join(input_path, '**/*.mp4'), recursive=True):
             chat_json = os.path.splitext(fn)[0] + '.live_chat.json'
             if os.path.exists(chat_json):
                 print (fn)
