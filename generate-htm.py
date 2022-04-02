@@ -13,6 +13,23 @@ import shutil
 import sys
 import urllib.parse
 
+app_dir = os.path.normpath(os.path.split(__file__)[0])
+
+class CopyJsOnce:
+    def __init__(self):
+        self.already_copy = False
+    
+    def copy_js(self, out_dir:str):
+        if self.already_copy:
+            return
+        if out_dir != app_dir:
+            self.already_copy = True
+            in_file = os.path.join(app_dir, 'play-live-chat.js')
+            out_file = os.path.join(out_dir, 'play-live-chat.js')
+            print ('output: ' + out_file)
+            shutil.copy(in_file, out_file)
+
+
 def main():
     cmd_parser = argparse.ArgumentParser(description='generate a html to play video with live-chat.json')
     cmd_parser.add_argument('path', type=pathlib.Path, help='video file (webm or mp4), or directory (find *.webm and *.json recursive)')
@@ -26,21 +43,21 @@ def main():
     chat_json_filename = cmd.chat_json
     output_filename = cmd.output
     setlist_filename = cmd.set_list
+    cp_once = CopyJsOnce()
 
     if os.path.isfile(input_path):
-        process_video(cmd, input_path, chat_json_filename, output_filename, setlist_filename)
+        process_video(cmd, input_path, cp_once, chat_json_filename, output_filename, setlist_filename)
     elif os.path.isdir(input_path):
         for fn in glob(os.path.join(input_path, '**/*.webm'), recursive=True) + \
                   glob(os.path.join(input_path, '**/*.mp4'), recursive=True):
             chat_json = os.path.splitext(fn)[0] + '.live_chat.json'
             if os.path.exists(chat_json):
-                print (fn)
-                print (chat_json)
-                process_video(cmd, fn, chat_json)
-        
+                process_video(cmd, fn, cp_once, chat_json)
+
 
 def process_video(cmd,
                   video_filename:str,
+                  cp_once:CopyJsOnce,
                   chat_json_filename:str=None,
                   output_filename:str=None,
                   setlist_filename:str=None):
@@ -57,7 +74,6 @@ def process_video(cmd,
         print ('not found input file: ' + chat_json_filename)
         sys.exit(-1)
 
-    app_dir = os.path.normpath(os.path.split(__file__)[0])
     video_dir = os.path.normpath(os.path.split(video_filename)[0])
     out_dir = os.path.normpath(os.path.split(os.path.abspath(output_filename))[0])
 
@@ -98,9 +114,8 @@ def process_video(cmd,
             text = text.replace('{{live-chat-json}}', live_chat_json_lines)
             text = text.replace('{{setlist-json}}', setlist_json_text)
             out_file.write(text)
-    if out_dir != app_dir:
-        shutil.copy(os.path.join(app_dir, 'play-live-chat.js'),
-                    os.path.join(out_dir, 'play-live-chat.js'))
+    print ('output: ' + output_filename)
+    cp_once.copy_js(out_dir)
 
 def convert_setlist_to_json(setlist_filename):
     if setlist_filename is None:
