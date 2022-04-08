@@ -51,6 +51,7 @@ async function create_chat_item(json_text) {
         console.log('error: not found videoOffsetTimeMsec');
         return;
     }
+    timeInMs = Math.max(timeInMs, 0)
     
     var node;
     if (json.replayChatItemAction.actions.length > 0) {
