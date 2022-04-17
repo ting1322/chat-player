@@ -15,22 +15,23 @@ yt-dlp 下載的 XXX.live-chat.json 聊天室紀錄檔，可以用這個專案�
    ```
    --write-subs --sub-langs live_chat
    ```
-2. 執行本專案的 generate-htm.py，輸入為影片 (webm/mp4) + live_chat.json，輸出為 htm 檔。
+2. 安裝 python 3
+3. 執行本專案的 generate-htm.py，輸入為影片 (webm/mp4) + json，輸出為 htm 檔。
    ```
-   ./generate-htm.py XXX.webm
+   generate-htm.py XXX.webm -c XXX.live_chat.json
    ```
-3. 瀏覽器開啟 htm 檔
+4. 瀏覽器開啟產生的 XXX.webm.htm
 
 ## 完整 command line
 
 ```
 $ ./generate-htm.py --help
-usage: generate-htm.py [-h] [-c CHAT_JSON] [-s SET_LIST] [-o OUTPUT] [--no-download-pic] video
+usage: generate-htm.py [-h] [-c CHAT_JSON] [-s SET_LIST] [-o OUTPUT] [--no-download-pic] path
 
 generate a html to play video with live-chat.json
 
 positional arguments:
-  video                 video file (webm or mp4)
+  path                  video file (webm or mp4), or directory (find *.webm and *.json recursive)
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -39,20 +40,23 @@ optional arguments:
   -s SET_LIST, --set-list SET_LIST
                         時間軸 txt 檔
   -o OUTPUT, --output OUTPUT
-                        output html file
+                        output html file, 不指定就是目前工作目錄跟影片同檔名的htm
   --no-download-pic     不要把聊天室貼圖抓下來 (每次開網頁使用youtube檔案)
-```
+ ```
 
 只有輸入的影片檔路徑必須要給，其餘皆是可選。
 輸出檔案預設在當前工作目錄，檔名為影片檔 + .htm。
 json 檔案預設是影片檔名 + live_chat.json，這也是 yt-dlp 下載下來預設的檔名。
+
+第一個參數可以使用 . 代表當前路徑，或 .. 代表上一層路徑。
+使用資料夾作為參數時，會去搜尋所有子資料夾，相同檔名的 *.webm 與 *.live\_chat.json。
 
 # 執行環境
 
 我這邊的環境是
 
 - Python 3.9
-- Firefox 97.0
+- Firefox 99.0
 
 如果有問題，先檢查 python 版本，然後是網頁瀏覽器。
 
