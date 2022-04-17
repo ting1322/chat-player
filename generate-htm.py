@@ -54,6 +54,10 @@ def main():
             if os.path.exists(chat_json):
                 process_video(cmd, fn, cp_once, chat_json)
 
+def try_find_file(filename:str) -> str:
+    if os.path.exists(filename):
+        return filename
+    return None
 
 def process_video(cmd,
                   video_filename:str,
@@ -80,9 +84,9 @@ def process_video(cmd,
     video_filename = os.path.relpath(video_filename, start=out_dir)
 
     if setlist_filename is None:
-        setlist_filename = os.path.join(video_dir, 'set-list.txt')
-        if not os.path.exists(setlist_filename):
-            setlist_filename = None
+        setlist_filename = try_find_file(os.path.join(video_dir, 'set-list.txt'))
+    if setlist_filename is None:
+        setlist_filename = try_find_file(os.path.splitext(video_filename)[0] + '.txt')
 
     if not setlist_filename is None \
        and not os.path.exists(setlist_filename):
@@ -123,13 +127,13 @@ def convert_setlist_to_json(setlist_filename):
     arr = []
     with open(setlist_filename, 'r') as f:
         for line in f.readlines():
-            x = re.match(r"(\d+\. )?(\d{1,2}):(\d{2}):(\d{2}) (.+)", line)
+            x = re.match(r"(\d+\. )?(?P<H>\d\d?):(?P<M>\d\d):(?P<S>\d\d)( ~ \d\d?:\d\d:\d\d)? (?P<T>.+)", line)
             if x is None:
                 continue
-            hour = int(x.group(2))
-            minute = int(x.group(3))
-            second = int(x.group(4))
-            title = x.group(5)
+            hour = int(x.group('H'))
+            minute = int(x.group('M'))
+            second = int(x.group('S'))
+            title = x.group('T')
             totla_ms = ((((hour * 60) + minute) * 60) + second) * 1000
             obj = { 'time_in_ms': totla_ms,
                     'title': title }
