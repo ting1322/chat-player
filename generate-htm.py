@@ -104,9 +104,9 @@ def process_video(cmd,
     setlist_json_text = convert_setlist_to_json(setlist_filename)
 
     template_htm = os.path.join(app_dir, 'template.htm.in')
-    with open(template_htm, 'r') as in_file, \
+    with open(template_htm, 'r', encoding='utf-8') as in_file, \
          open(chat_json_filename, 'r', encoding='utf-8') as inline_file, \
-         open(output_filename, 'w') as out_file:
+         open(output_filename, 'w', encoding='utf-8') as out_file:
         live_chat_json_lines = '\n'
         for line in inline_file.readlines():
             live_chat_json_lines += preprocess_json(line, cmd, out_dir)
