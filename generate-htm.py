@@ -32,7 +32,7 @@ class CopyJsOnce:
 
 def main():
     cmd_parser = argparse.ArgumentParser(description='generate a html to play video with live-chat.json')
-    cmd_parser.add_argument('path', type=pathlib.Path, help='video file (webm or mp4), or directory (find *.webm and *.json recursive)')
+    cmd_parser.add_argument('path', type=pathlib.Path, nargs='?', default='.', help='video file (webm or mp4), or directory (find *.webm and *.json recursive)')
     cmd_parser.add_argument('-c', '--chat-json', type=pathlib.Path, help='live chat json file (download by yt-dlp)')
     cmd_parser.add_argument('-s', '--set-list', type=pathlib.Path, help='時間軸 txt 檔')
     cmd_parser.add_argument('-o', '--output', type=pathlib.Path, help='output html file, 不指定就是目前工作目錄跟影片同檔名的htm')
@@ -40,19 +40,26 @@ def main():
     cmd = cmd_parser.parse_args()
 
     input_path = cmd.path
+    if input_path is None:
+        input_path = '.'
     chat_json_filename = cmd.chat_json
     output_filename = cmd.output
     setlist_filename = cmd.set_list
     cp_once = CopyJsOnce()
 
+    hasProcessAnyFile = False
     if os.path.isfile(input_path):
         process_video(cmd, input_path, cp_once, chat_json_filename, output_filename, setlist_filename)
+        hasProcessAnyFile = True
     elif os.path.isdir(input_path):
         for fn in glob(os.path.join(input_path, '**/*.webm'), recursive=True) + \
                   glob(os.path.join(input_path, '**/*.mp4'), recursive=True):
             chat_json = os.path.splitext(fn)[0] + '.live_chat.json'
             if os.path.exists(chat_json):
                 process_video(cmd, fn, cp_once, chat_json)
+                hasProcessAnyFile = True
+    if not hasProcessAnyFile:
+        print ('not found any file (*.webm or *.mp4 with *.live_chat.json)')
 
 def try_find_file(filename:str) -> str:
     if os.path.exists(filename):
