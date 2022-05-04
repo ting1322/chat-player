@@ -6,8 +6,8 @@ yt-dlp 下載的 XXX.live-chat.json 聊天室紀錄檔，可以用這個專案�
 
 - 下載聊天室的貼圖，供離線使用。
 - 滑鼠拉動影片時間軸時，同步捲動聊天室。
-- 點聊天室的紀錄的時間，把影片跳到指定時間。
-- 時間軸 (特定格式.txt)
+- 點聊天室的紀錄的時間，把影片跳到指定時間。 (只有Firefox可用)
+- 時間軸 (特定格式.txt，只有Firefox可用)
 
 # 使用方式
 
@@ -16,11 +16,16 @@ yt-dlp 下載的 XXX.live-chat.json 聊天室紀錄檔，可以用這個專案�
    --write-subs --sub-langs live_chat
    ```
 2. 安裝 python 3
-3. 執行本專案的 generate-htm.py，輸入為影片 (webm/mp4) + json，輸出為 htm 檔。
+3. 開檔案總管到預計產生.htm檔的資料夾，例如 D:\video-web，在上方可以輸入文字的網址列打 cmd 按 enter。
+   在 cmd 執行下面指令，會搜尋 D:\video 底下所有同檔名的 webm, mp4, json，產生 htm 檔案到 D:\video-web。
    ```
-   generate-htm.py XXX.webm -c XXX.live_chat.json
+   py generate-htm.py D:\video
    ```
-4. 瀏覽器開啟產生的 XXX.webm.htm
+4. 如果遇到錯誤，說找不到 requests 之類的，先打指令安裝 requests，再回去前一步驟。
+   ```
+   py -m pip install requests
+   ```
+5. 瀏覽器開啟產生的 XXX.webm.htm
 
 ## 完整 command line
 
