@@ -1,5 +1,4 @@
-# [下載](https://github.com/ting1322/chat-player/releases/latest/download/chat-player.zip)
-  [下載單獨.exe](https://github.com/ting1322/chat-player/releases/latest/download/generate-htm.exe)
+# [下載](https://github.com/ting1322/chat-player/releases/latest/download/chat-player.zip) [或是下載單獨.exe](https://github.com/ting1322/chat-player/releases/latest/download/generate-htm.exe)
 
 yt-dlp 下載的 XXX.live-chat.json 聊天室紀錄檔，可以用這個專案播放。
 
@@ -17,17 +16,21 @@ yt-dlp 下載的 XXX.live-chat.json 聊天室紀錄檔，可以用這個專案�
    --write-subs --sub-langs live_chat
    ```
 2. 安裝 python 3 (如果是使用.exe版本的話就不用)
-3. 開檔案總管到預計產生.htm檔的資料夾，例如 D:\video-web，在上方可以輸入文字的網址列打 cmd 按 enter。
-   在 cmd 執行下面指令，會搜尋 D:\video 底下所有同檔名的 webm, mp4, json，產生 htm 檔案到 D:\video-web。
+3. 把程式 (.py 或是 .exe) 放在影片資料夾的上層，然後執行他。
+   如果有檔案
    ```
-   py generate-htm.py D:\video
+   D:\vtuber\maisaki-berry\2022-04-07-メン限\2022-04-07.mp4
+   D:\vtuber\maisaki-berry\2022-04-07-メン限\2022-04-07.live_chat.json
    ```
-4. 如果遇到錯誤，說找不到 requests 之類的，先打指令安裝 requests，再回去前一步驟。
-   (如果是使用.exe版本的話這個步驟幫不上忙)
+   那就把程式放在 D:\vtuber\maisaki-berry\generate-htm.py，然後執行他。
+   **注意** 只能使用 mp4 與 webm。mkv 沒辦法播放。
+4. 會看到產生htm檔案，還有.js檔案與 image 目錄，用 firefox 開 htm 檔。
+
+如果遇到錯誤，說找不到 requests 之類的，先打指令安裝 requests，再回去前一步驟。
+(如果是使用.exe版本的話這個步驟幫不上忙)
    ```
    py -m pip install requests
    ```
-5. 瀏覽器開啟產生的 XXX.webm.htm
 
 ## 完整 command line
 
