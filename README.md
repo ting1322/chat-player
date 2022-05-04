@@ -1,4 +1,5 @@
 # [下載](https://github.com/ting1322/chat-player/releases/latest/download/chat-player.zip)
+  [下載單獨.exe](https://github.com/ting1322/chat-player/releases/latest/download/generate-htm.exe)
 
 yt-dlp 下載的 XXX.live-chat.json 聊天室紀錄檔，可以用這個專案播放。
 
@@ -15,13 +16,14 @@ yt-dlp 下載的 XXX.live-chat.json 聊天室紀錄檔，可以用這個專案�
    ```
    --write-subs --sub-langs live_chat
    ```
-2. 安裝 python 3
+2. 安裝 python 3 (如果是使用.exe版本的話就不用)
 3. 開檔案總管到預計產生.htm檔的資料夾，例如 D:\video-web，在上方可以輸入文字的網址列打 cmd 按 enter。
    在 cmd 執行下面指令，會搜尋 D:\video 底下所有同檔名的 webm, mp4, json，產生 htm 檔案到 D:\video-web。
    ```
    py generate-htm.py D:\video
    ```
 4. 如果遇到錯誤，說找不到 requests 之類的，先打指令安裝 requests，再回去前一步驟。
+   (如果是使用.exe版本的話這個步驟幫不上忙)
    ```
    py -m pip install requests
    ```
