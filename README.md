@@ -1,4 +1,6 @@
-# [下載](https://github.com/ting1322/chat-player/releases/latest/download/chat-player.zip) [或是下載單獨.exe](https://github.com/ting1322/chat-player/releases/latest/download/generate-htm.exe)
+# [下載單獨.exe](https://github.com/ting1322/chat-player/releases/latest/download/generate-htm.exe)
+
+也可以下載 tar.gz 之後，執行裡面的 .py。
 
 yt-dlp 下載的 XXX.live-chat.json 聊天室紀錄檔，可以用這個專案播放。
 
@@ -6,8 +8,8 @@ yt-dlp 下載的 XXX.live-chat.json 聊天室紀錄檔，可以用這個專案�
 
 - 下載聊天室的貼圖，供離線使用。
 - 滑鼠拉動影片時間軸時，同步捲動聊天室。
-- 點聊天室的紀錄的時間，把影片跳到指定時間。 (只有Firefox可用)
-- 時間軸 (特定格式.txt，只有Firefox可用)
+- 點聊天室的紀錄的時間，把影片跳到指定時間。
+- 時間軸 (特定格式.txt)
 
 # 使用方式
 
