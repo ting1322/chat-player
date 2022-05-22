@@ -252,13 +252,13 @@ function init_setlist_from_embedded() {
 function comment_time_click(eventArg) {
     const element = eventArg.currentTarget;
     const timeInMs = parseInt(element.getAttribute('time_in_ms'));
-    video1.fastSeek(timeInMs / 1000);
+    video1.currentTime = timeInMs / 1000;
 }
 
 function timestamp_click(eventArg) {
     const element = eventArg.currentTarget;
     timeInMs = parseInt(element.getAttribute('time_in_ms'));
-    video1.fastSeek(timeInMs / 1000);
+    video1.currentTime = timeInMs / 1000;
 }
 
 function sync_live_chat() {
