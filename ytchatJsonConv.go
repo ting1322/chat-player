@@ -17,7 +17,7 @@ func preprocessJson(downloader ImgDownloader, jsonText, outDir string) (string, 
 	var jsonmap jmap
 	json.Unmarshal([]byte(jsonText), &jsonmap)
 	replayChat := jsonmap["replayChatItemAction"].(jmap)
-	actions, exist  := replayChat["actions"]
+	actions, exist	:= replayChat["actions"]
 	if !exist {
 		return jsonText, nil
 	}

@@ -27,7 +27,7 @@ func (me *HttpImgDownloader) Download(localPath, url string) string {
 	if os.IsNotExist(err) {
 		os.Mkdir(filepath.Dir(localPath), os.ModePerm)
 	}
-	
+
 	client := http.Client{
 		CheckRedirect: func(req *http.Request, via []*http.Request) error {
 			req.URL.Opaque = req.URL.Path

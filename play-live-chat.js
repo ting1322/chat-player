@@ -52,7 +52,7 @@ async function create_chat_item(json_text) {
         return;
     }
     timeInMs = Math.max(timeInMs, 0)
-    
+
     var o;
     if (json.replayChatItemAction.actions.length > 0) {
         const action = json.replayChatItemAction.actions[0];
@@ -73,7 +73,7 @@ async function create_chat_item(json_text) {
             }
         }
     }
-    
+
     if (o != null) {
         chat_array.push(timeInMs);
         chat_div.appendChild(o.node);
@@ -378,7 +378,7 @@ function sync_live_chat() {
     const div_y = chat_div.getBoundingClientRect().bottom - 100;
     const child_y = chat_div.children[i].getBoundingClientRect().y;
     const scrollTop = chat_div.scrollTop;
-    
+
     const scroll_target = child_y - div_y + scrollTop;
     chat_div.scrollTo({
         top: scroll_target,

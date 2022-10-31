@@ -49,7 +49,7 @@ func main() {
 				log.Fatalln(err)
 			}
 		}
-		
+
 	} else {
 		err = processVideo(optionPath)
 		if err != nil {
@@ -104,7 +104,7 @@ func processVideo(filePath string) error {
 	case ".webm": videoType = "video/webm"
 	default: log.Fatalln("not support video type, only support mp4 and webm")
 	}
-    setlistJsonText, err := convertSetlist2Json(setlistFilename)
+	setlistJsonText, err := convertSetlist2Json(setlistFilename)
 	if err != nil {
 		return err
 	}
@@ -135,7 +135,7 @@ func processVideo(filePath string) error {
 	htmText = strings.ReplaceAll(htmText, "{{video}}", videoPathInHtm)
 	htmText = strings.ReplaceAll(htmText, "{{title}}", filepath.Base(filePath))
 	htmText = strings.ReplaceAll(htmText, "{{video-type}}", videoType)
-	htmText = strings.ReplaceAll(htmText, "{{live-chat-json}}", strings.Join(liveChatText,  "\n"))
+	htmText = strings.ReplaceAll(htmText, "{{live-chat-json}}", strings.Join(liveChatText,	"\n"))
 	htmText = strings.ReplaceAll(htmText, "{{setlist-json}}", setlistJsonText)
 
 	log.Println("output: " + outputFilename)
