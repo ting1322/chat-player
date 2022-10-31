@@ -8,11 +8,17 @@
 div #app {
     display: inline-block;
 }
+#video1 {
+    width: 70%;
+    vertical-align: top;
+}
 div #live-chat {
     display: inline-block;
     overflow: scroll;
-    width: 500px;
-    height: 720px;
+    width: 25%;
+    height: 90%;
+    max-height: 97vh;
+    vertical-align: top;
 }
 div.live-chat-item span{
     vertical-align: top;
@@ -21,6 +27,9 @@ div.sc-block {
     display: inline-block;
     margin: 5px;
     width: 75%;
+}
+img.sticker {
+    width: 6rem;
 }
 img.emoji {
     width: 2rem;
@@ -32,7 +41,7 @@ img.emoji {
   </head>
   <body>
     <div id="app">
-      <video id='video1' width="1280" controls>
+      <video id='video1' controls>
         <source src="{{video}}" type="{{video-type}}">
       </video>
       <div id="live-chat"></div>

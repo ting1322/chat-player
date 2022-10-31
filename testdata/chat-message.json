@@ -1,0 +1,118 @@
+{
+  "clickTrackingParams": "CAEQl98BIhMI0YCzk_L7-gIVE1JYCh24bQSJ",
+  "replayChatItemAction": {
+    "actions": [
+      {
+        "clickTrackingParams": "CAEQl98BIhMI0YCzk_L7-gIVE1JYCh24bQSJ",
+        "addChatItemAction": {
+          "item": {
+            "liveChatTextMessageRenderer": {
+              "message": {
+                "runs": [
+                  {
+                    "text": "待機"
+                  },
+                  {
+                    "emoji": {
+                      "emojiId": "🌚",
+                      "shortcuts": [
+                        ":new_moon_face:",
+                        ":new_moon_with_face:"
+                      ],
+                      "searchTerms": [
+                        "new",
+                        "moon",
+                        "face",
+                        "with"
+                      ],
+                      "image": {
+                        "thumbnails": [
+                          {
+                            "url": "https://www.youtube.com/s/gaming/emoji/0f0cae22/emoji_u1f31a.svg"
+                          }
+                        ],
+                        "accessibility": {
+                          "accessibilityData": {
+                            "label": "🌚"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "authorName": {
+                "simpleText": "サーモン"
+              },
+              "authorPhoto": {
+                "thumbnails": [
+                  {
+                    "url": "https://yt4.ggpht.com/ytc/AMLnZu8vxViousU0gR4Qy7YaB4c-DBxBtWCsSnO1BdcgDA=s32-c-k-c0x00ffffff-no-rj",
+                    "width": 32,
+                    "height": 32
+                  },
+                  {
+                    "url": "https://yt4.ggpht.com/ytc/AMLnZu8vxViousU0gR4Qy7YaB4c-DBxBtWCsSnO1BdcgDA=s64-c-k-c0x00ffffff-no-rj",
+                    "width": 64,
+                    "height": 64
+                  }
+                ]
+              },
+              "contextMenuEndpoint": {
+                "clickTrackingParams": "CAEQl98BIhMI0YCzk_L7-gIVE1JYCh24bQSJ",
+                "commandMetadata": {
+                  "webCommandMetadata": {
+                    "ignoreNavigation": true
+                  }
+                },
+                "liveChatItemContextMenuEndpoint": {
+                  "params": "Q2p3S09nb2FRMHMzU0Raa2JXbzRVRzlEUm1Vd1NYSlJXV1IyUlZsRVRIY1NIRU5QWDFrMFRUWnFPRkJ2UTBaVWRVUldaMFZrY25CSlRYaEJMVEVhS1NvbkNoaFZRMEpLTm01bGFteDZaWE0yYlcwNVZYSjFZWGhSYzBFU0MwRnpZbFI0YmtGV1p6ZHZJQUVvQVRJYUNoaFZRMHRyTkZWcU9VNXdaRGhxUjFOeFZFWmFYM1ExYVdjNEFrZ0JVQUUlM0Q="
+                }
+              },
+              "id": "CjoKGkNLN0g2ZG1qOFBvQ0ZlMElyUVlkdkVZREx3EhxDT19ZNE02ajhQb0NGVHVEVmdFZHJwSU14QS0x",
+              "timestampUsec": "1666319455636895",
+              "authorBadges": [
+                {
+                  "liveChatAuthorBadgeRenderer": {
+                    "customThumbnail": {
+                      "thumbnails": [
+                        {
+                          "url": "https://yt3.ggpht.com/QMM-KQboJ7klaQvlq0d9EW4VVAYs0PCriN3kpjMgyg1PuuvztyHgPYlQN4-ra3_E2pfHuKhaeA=s16-c-k",
+                          "width": 16,
+                          "height": 16
+                        },
+                        {
+                          "url": "https://yt3.ggpht.com/QMM-KQboJ7klaQvlq0d9EW4VVAYs0PCriN3kpjMgyg1PuuvztyHgPYlQN4-ra3_E2pfHuKhaeA=s32-c-k",
+                          "width": 32,
+                          "height": 32
+                        }
+                      ]
+                    },
+                    "tooltip": "Member (2 months)",
+                    "accessibility": {
+                      "accessibilityData": {
+                        "label": "Member (2 months)"
+                      }
+                    }
+                  }
+                }
+              ],
+              "authorExternalChannelId": "UCKk4Uj9Npd8jGSqTFZ_t5ig",
+              "contextMenuAccessibility": {
+                "accessibilityData": {
+                  "label": "Chat actions"
+                }
+              },
+              "timestampText": {
+                "simpleText": "-28:47"
+              },
+              "trackingParams": "CAEQl98BIhMI0YCzk_L7-gIVE1JYCh24bQSJ"
+            }
+          },
+          "clientId": "CO_Y4M6j8PoCFTuDVgEdrpIMxA-1"
+        }
+      }
+    ],
+    "videoOffsetTimeMsec": "0"
+  }
+}
