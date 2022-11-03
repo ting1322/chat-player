@@ -6,9 +6,7 @@ import (
 	"log"
 	"os"
 	"strings"
-
 	"path/filepath"
-
 	"bufio"
 )
 
@@ -17,6 +15,9 @@ var templateHtm string
 
 //go:embed play-live-chat.js
 var playlivechatjs string
+
+//go:embed style.css
+var styleCss string
 
 func main() {
 	parseCommandline()
@@ -60,46 +61,40 @@ func main() {
 
 const not_found_json string = "not found .live_chat.json file"
 
-func processVideo(filePath string) error {
+func processVideo(videoFile string) error {
 	var chatJsonFilename string = optionChatJson
 	if len(chatJsonFilename) == 0 {
-		chatJsonFilename = fileNameWithoutExt(filePath) + ".live_chat.json"
+		chatJsonFilename = fileNameWithoutExt(videoFile) + ".live_chat.json"
 	}
 	_, err := os.Stat(chatJsonFilename)
 	if err != nil {
 		return errors.New(not_found_json)
 	}
-	_, err = os.Stat(filePath)
+	_, err = os.Stat(videoFile)
 	if err != nil {
 		return err
 	}
 	var outputFilename string = optionOutputName
 	var outDir string = optionOutDir
 	if len(optionOutputName) == 0 {
-		outputFilename = filePath + ".htm"
+		outputFilename = videoFile + ".htm"
 	}
 	if len(outDir) > 0 {
 		outputFilename = filepath.Join(outDir, filepath.Base(outputFilename))
 	} else {
 		outDir = filepath.Dir(outputFilename)
 	}
-	videoPathInHtm, err := filepath.Rel(outDir, filePath)
-	if err != nil {
-		videoPathInHtm = filePath
-	}
-
-	// windows 的路徑沒辦法直接放進網頁，要改成正斜線
-	videoPathInHtm = strings.ReplaceAll(videoPathInHtm, "\\", "/")
+	videoPathInHtm := relPathAsUrl(outDir, videoFile)
 
 	var setlistFilename string
-	filename := fileNameWithoutExt(filePath) + ".txt"
+	filename := fileNameWithoutExt(videoFile) + ".txt"
 	_, err = os.Stat(filename)
 	if err == nil {
 		setlistFilename = filename
 	}
 
 	var videoType string
-	switch filepath.Ext(filePath) {
+	switch filepath.Ext(videoFile) {
 	case ".mp4": videoType = "video/mp4"
 	case ".webm": videoType = "video/webm"
 	default: log.Fatalln("not support video type, only support mp4 and webm")
@@ -133,19 +128,42 @@ func processVideo(filePath string) error {
 	}
 	htmText := templateHtm
 	htmText = strings.ReplaceAll(htmText, "{{video}}", videoPathInHtm)
-	htmText = strings.ReplaceAll(htmText, "{{title}}", filepath.Base(filePath))
+	htmText = strings.ReplaceAll(htmText, "{{title}}", filepath.Base(videoFile))
 	htmText = strings.ReplaceAll(htmText, "{{video-type}}", videoType)
-	htmText = strings.ReplaceAll(htmText, "{{live-chat-json}}", strings.Join(liveChatText,	"\n"))
+	htmText = strings.ReplaceAll(htmText, "{{live-chat-json}}", strings.Join(liveChatText, "\n"))
 	htmText = strings.ReplaceAll(htmText, "{{setlist-json}}", setlistJsonText)
+	var js string
+	var css string
+	if optionSplitRes {
+		js = `<script src="play-live-chat.js"></script>`
+		css = `<link rel="stylesheet" type="text/css" href="style.css">`
+		if err := writeResFile(outDir); err != nil {
+			return err
+		}
+	} else {
+		js = "<script>\n" + playlivechatjs + "\n</script>"
+		css = "<style>\n" + styleCss + "\n</style>"
+	}
+	htmText = strings.ReplaceAll(htmText, "{{javascript1}}", js)
+	htmText = strings.ReplaceAll(htmText, "{{stylecss1}}", css)
 
 	log.Println("output: " + outputFilename)
 	outputFile.WriteString(htmText)
+	return nil
+}
+
+func writeResFile(outDir string) error {
 	jsFile, err := os.Create(filepath.Join(outDir, "play-live-chat.js"))
 	if err != nil {
 		return err
 	}
 	defer jsFile.Close()
 	jsFile.WriteString(playlivechatjs)
-
+	cssFile, err := os.Create(filepath.Join(outDir, "style.css"))
+	if err != nil {
+		return err
+	}
+	defer cssFile.Close()
+	cssFile.WriteString(styleCss)
 	return nil
 }

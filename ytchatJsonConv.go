@@ -57,7 +57,8 @@ func preprocessJson(downloader ImgDownloader, jsonText, outDir string) (string, 
 						for _, thumbnail := range thumbnails {
 							image_url := thumbnail.(jmap)["url"].(string)
 							filename := hashUrlFilename(image_url)
-							downloader.Download(filepath.Join(outDir, filename), image_url)
+							filename = downloader.Download(filepath.Join(outDir, filename), image_url)
+							filename, _ = filepath.Rel(outDir, filename)
 							thumbnail.(jmap)["url"] = filename
 						}
 					}
@@ -67,7 +68,8 @@ func preprocessJson(downloader ImgDownloader, jsonText, outDir string) (string, 
 				for _, thumbnail := range thumbnails {
 					image_url := thumbnail.(jmap)["url"].(string)
 					filename := hashUrlFilename(image_url)
-					downloader.Download(filepath.Join(outDir, filename), image_url)
+					filename = downloader.Download(filepath.Join(outDir, filename), image_url)
+					filename, _ = filepath.Rel(outDir, filename)
 					thumbnail.(jmap)["url"] = filename
 				}
 			}

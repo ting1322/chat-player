@@ -3,7 +3,6 @@ package main
 import (
 	_ "embed"
 	"regexp"
-	"regexp"
 	"testing"
 )
 
@@ -19,6 +18,8 @@ func (me *FakeDownloader) Download(localPath, url string) string {
 	return localPath
 }
 
+// 聊天室使用 emoji 的紀錄，需要轉換圖片網址為本地檔案，
+// 並且要有 ImgDownloader 曾經下載過得紀錄
 func TestEmoji(t *testing.T) {
 	fd := FakeDownloader{}
 	text, err := preprocessJson(&fd, chatjson, "")

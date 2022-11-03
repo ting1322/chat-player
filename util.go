@@ -1,8 +1,9 @@
 package main
 
 import (
+	"net/url"
 	"strings"
-	"path"
+	"path/filepath"
 	"encoding/hex"
 	"golang.org/x/crypto/blake2b"
 )
@@ -27,5 +28,31 @@ func hashUrlFilename(image_url string) string {
 
 // 檔名不要副檔名
 func fileNameWithoutExt(fileName string) string {
-	return fileName[:len(fileName)-len(path.Ext(fileName))]
+	return fileName[:len(fileName)-len(filepath.Ext(fileName))]
+}
+
+func absPath(pathName string) string {
+	if filepath.IsAbs(pathName) {
+		return pathName
+	}
+	absPath, err := filepath.Abs(pathName)
+	if err == nil {
+		return absPath
+	}
+	return pathName
+}
+
+func relPathAsUrl(basedir, filename string) string {
+	filename = absPath(filename)
+	urlpath, err := filepath.Rel(absPath(basedir), filename)
+	if err != nil {
+		urlpath = filename
+	}
+	d,f := filepath.Split(urlpath)
+	f = url.PathEscape(f)
+	urlpath = filepath.Join(d, f)
+
+	// windows 的路徑沒辦法直接放進網頁，要改成正斜線
+	urlpath = strings.ReplaceAll(urlpath, "\\", "/")
+	return urlpath
 }

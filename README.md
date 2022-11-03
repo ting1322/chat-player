@@ -42,6 +42,8 @@ option:
     	output html file, 不指定就是目前工作目錄跟影片同檔名的htm
   -set-list string
     	時間軸 txt 檔
+  -split-res
+        分離 javascript, css 檔案，預設是嵌在html裡面
  ```
 
 輸出檔案預設在影片檔旁邊，檔名為影片檔 + .htm。
