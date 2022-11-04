@@ -9,10 +9,12 @@
   </head>
   <body>
     <div id="app">
-      <video id='video1' controls>
-        <source src="{{video}}" type="{{video-type}}">
-      </video>
-      <div id="live-chat"></div>
+      <div id="main">
+        <video id='video1' controls>
+          <source src="{{video}}" type="{{video-type}}">
+        </video>
+        <div id="live-chat"></div>
+      </div>
       <div id="timestamp"></div>
     </div>
     <div style="display:none">
@@ -21,6 +23,7 @@
         <span class="c_name">Unknown Name</span><span>: </span>
         <span class="c_content">Unknown content</span>
       </div>
+      <!-- class: live-chat-sc or live-chat-sticker -->
       <div id="live-chat-sc-template" class="live-chat-sc">
         <span class="c_time">00:00:00</span><span> </span>
         <div class="sc-block">

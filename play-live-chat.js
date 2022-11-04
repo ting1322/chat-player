@@ -7,6 +7,14 @@ const sc_templ = document.getElementById('live-chat-sc-template');
 const timestamp_templ = document.getElementById('timestamp-template');
 const chat_array = [];
 
+function resizeChatDiv() {
+    const height = video1.getClientRects()[0].height
+    chat_div.style.height = height + "px";
+}
+
+window.addEventListener("resize", resizeChatDiv);
+video1.addEventListener("resize", resizeChatDiv);
+
 function prettyFormatTime(timeInMs) {
     const timeInSec = Math.floor(timeInMs / 1000);
     const timeSec = timeInSec % 60;
@@ -232,6 +240,7 @@ function render_liveChatSticker(liveChatPaidStickerRenderer, timeInMs)
     o.c_header.style.color = toColor(liveChatPaidStickerRenderer.moneyChipTextColor);
     o.c_text.style.backgroundColor = toColor(liveChatPaidStickerRenderer.moneyChipBackgroundColor);
     o.c_text.style.color = toColor(liveChatPaidStickerRenderer.moneyChipTextColor);
+    o.node.setAttribute("class", "live-chat-sticker");
 
     if ('purchaseAmountText' in liveChatPaidStickerRenderer &&
         'simpleText' in liveChatPaidStickerRenderer.purchaseAmountText) {

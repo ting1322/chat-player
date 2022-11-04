@@ -1,6 +1,9 @@
 div #app {
     display: inline-block;
 }
+div#main {
+    width: 100%;
+}
 #video1 {
     width: 70%;
     vertical-align: top;
@@ -9,23 +12,43 @@ div #live-chat {
     display: inline-block;
     overflow: scroll;
     width: 25%;
-    height: 90%;
-    max-height: 97vh;
     vertical-align: top;
 }
-div.live-chat-item span{
+div.live-chat-item span {
     vertical-align: top;
 }
 div.sc-block {
-    display: inline-block;
     margin: 5px;
     width: 75%;
 }
+div.sc-block div.text,
+div.sc-block div.header {
+    padding: 5px 5px 0 5px;
+}
+div.sc-block div.text {
+    vertical-align: super;
+}
+div.live-chat-sc div.sc-block {
+    display: inline-block;
+}
+
+/* super sticker */
+div.live-chat-sticker div.sc-block {
+    display: inline-table;
+}
+div.live-chat-sticker div.sc-block div.header,
+div.live-chat-sticker div.sc-block div.text {
+    /* .header and .text */
+    display: table-cell;
+    vertical-align: top;
+}
 img.sticker {
     width: 6rem;
+    float: right;
 }
+
 img.emoji {
-    width: 2rem;
+    width: 1.5rem;
 }
 .c_time { color:gray; }
 .c_name { color:blue; }
