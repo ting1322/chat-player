@@ -24,11 +24,9 @@ jobs:
     - name: Build
       run: ./buildall.sh
 
-  test:
     - name: Test
       run: go test -v
 
-  release:
     - name: Upload a Build Artifact
       uses: "marvinpinto/action-automatic-releases@latest"
         with:
