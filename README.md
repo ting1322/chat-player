@@ -77,17 +77,15 @@ json 檔案預設是影片檔名 + live_chat.json，這也是 yt-dlp 下載下�
 
 從新到舊
 
-## 2022-11-04 v0.5.0
-1. play-live-chat.js 預設嵌入 htm 之中，並新增參數 -split-res 讓檔案獨立出來
-2. 修正 windows 產生的影片檔案路徑錯誤
-3. 修正 webp 圖片副檔名錯誤
-
-## 2022-10-31 v0.4.0
-
-1. 支援顯示 super sticker、member free message、membership gift
-2. 自動縮放影片寬度，當視窗不是 1920 放到最大時，舊版顯示不太對勁
-3. 預設的 .htm 輸出目錄改為影片的旁邊 (可以用 -out-dir 指定)
-4. 轉檔程式改用 golang 取代 python
+## 2022-11-05 v0.5.1
+1. 支援顯示 super sticker、member free message、membership gift。
+2. play-live-chat.js 預設嵌入 htm 之中，這個 js 檔案可以刪掉了。
+   (新增參數 -split-res 模仿舊版行為，分離的 js 唯一的好處是 debug)
+3. 預設的 .htm 輸出目錄改為影片的旁邊。
+   (可以用 -out-dir 指定輸出目錄，可以模仿舊版行為)
+4. 改善畫面顯示編排，尤其是當視窗改變大小時。
+5. 轉檔程式改用 golang 取代 python。
+   指令參數格式有點不一樣，帶減號的 option 放在前面，而檔名或目錄必須在最後面。
 
 ## 2022-05-22 v0.3.3
 
