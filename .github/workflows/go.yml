@@ -24,12 +24,18 @@ jobs:
     - name: Build
       run: ./buildall.sh
 
+  test:
     - name: Test
       run: go test -v
 
+  release:
     - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v3.1.1
-      with:
-        name: chatplayer-win-x64.exe
-        path: chatplayer.exe
-        error: output executable flie
+      uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: false
+          title: "Development Build"
+          files: |
+            chatplayer
+            chatplayer.exe
