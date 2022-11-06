@@ -1,5 +1,23 @@
-div #app {
-    display: inline-block;
+:root {
+    --background: #ffffff;
+    --normal-text: #000000;
+    --chat-name: rgba(17, 17, 17, 0.6);
+    --chat-time: rgba(17, 17, 17, 0.4);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        color-scheme: dark;
+        --background: #000000;
+        --normal-text: rgb(241, 241, 241);
+        --chat-name: rgba(255, 255, 255, 0.7);
+        --chat-time: rgba(255, 255, 255, 0.54);
+    }
+}
+
+body {
+    background-color: var(--background);
+    color: var(--normal-text);
 }
 div#main {
     width: 100%;
@@ -10,12 +28,17 @@ div#main {
 }
 div #live-chat {
     display: inline-block;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
     width: 25%;
     vertical-align: top;
+    padding-left: 10px;
+    border: 3px solid var(--chat-time);
+    border-radius: 5px;
+
 }
-div.live-chat-item span {
-    vertical-align: top;
+div.live-chat-item {
+    margin-bottom: 0.5rem;
 }
 div.sc-block {
     margin: 5px;
@@ -49,7 +72,13 @@ img.sticker {
 
 img.emoji {
     width: 1.5rem;
+    vertical-align: bottom;
 }
-.c_time { color:gray; }
-.c_name { color:blue; }
-
+.c_time, .t_time {
+    color: var(--chat-time);
+    font-size: 0.9em;
+    vertical-align: baseline;
+    cursor: pointer;
+}
+.c_name { color: var(--chat-name); }
+.t_title { padding-left: 0.5rem; }

@@ -9,7 +9,7 @@ const chat_array = [];
 
 function resizeChatDiv() {
     const height = video1.getClientRects()[0].height
-    chat_div.style.height = height + "px";
+    chat_div.style.height = (height-5) + "px";
 }
 
 window.addEventListener("resize", resizeChatDiv);
@@ -155,25 +155,28 @@ function newChatTextNode(timeInMs)
     return o;
 }
 
-function newSuperChatNode(timeInMs)
-{
-    const o = {};
-    o.node = sc_templ.cloneNode(true);
-    o.node.removeAttribute('id');
-    o.c_header = o.node.getElementsByClassName('header')[0];
-    o.c_text = o.node.getElementsByClassName('text')[0];
-    o.c_name = o.node.getElementsByClassName('name')[0];
-    o.c_paid = o.node.getElementsByClassName('paid')[0];
-    o.c_time = o.node.getElementsByClassName('c_time')[0];
-    o.c_time.setAttribute('time_in_ms', timeInMs);
-    o.c_time.innerHTML = prettyFormatTime(timeInMs);
-    o.c_time.onclick = comment_time_click;
-    return o;
+class SuperChatNode {
+    constructor(timeInMs) {
+        this.node = sc_templ.cloneNode(true);
+        this.node.removeAttribute('id');
+        this.c_header = this.node.getElementsByClassName('header')[0];
+        this.c_text = this.node.getElementsByClassName('text')[0];
+        this.c_name = this.node.getElementsByClassName('name')[0];
+        this.c_paid = this.node.getElementsByClassName('paid')[0];
+        this.c_time = this.node.getElementsByClassName('c_time')[0];
+        this.c_time.setAttribute('time_in_ms', timeInMs);
+        this.c_time.innerHTML = prettyFormatTime(timeInMs);
+        this.c_time.onclick = comment_time_click;
+    }
+
+    setStickerMode() {
+        this.node.setAttribute("class", "live-chat-sticker");
+    }
 }
 
 function render_liveChatPaidMessage(liveChatPaidMessageRenderer, timeInMs)
 {
-    var o = newSuperChatNode(timeInMs)
+    var o = new SuperChatNode(timeInMs)
 
     if ('headerBackgroundColor' in liveChatPaidMessageRenderer) {
         o.c_header.style.backgroundColor = toColor(liveChatPaidMessageRenderer.headerBackgroundColor);
@@ -235,12 +238,12 @@ function render_liveChatPaidMessage(liveChatPaidMessageRenderer, timeInMs)
 
 function render_liveChatSticker(liveChatPaidStickerRenderer, timeInMs)
 {
-    var o = newSuperChatNode(timeInMs);
+    var o = new SuperChatNode(timeInMs);
     o.c_header.style.backgroundColor = toColor(liveChatPaidStickerRenderer.moneyChipBackgroundColor);
     o.c_header.style.color = toColor(liveChatPaidStickerRenderer.moneyChipTextColor);
     o.c_text.style.backgroundColor = toColor(liveChatPaidStickerRenderer.moneyChipBackgroundColor);
     o.c_text.style.color = toColor(liveChatPaidStickerRenderer.moneyChipTextColor);
-    o.node.setAttribute("class", "live-chat-sticker");
+    o.setStickerMode();
 
     if ('purchaseAmountText' in liveChatPaidStickerRenderer &&
         'simpleText' in liveChatPaidStickerRenderer.purchaseAmountText) {
@@ -277,7 +280,7 @@ function render_liveChatGift(liveChatSponsorshipsGiftPurchaseAnnouncementRendere
         return;
     const renderer = header.liveChatSponsorshipsHeaderRenderer;
 
-    var o = newSuperChatNode(timeInMs);
+    var o = new SuperChatNode(timeInMs);
     o.c_header.style.backgroundColor = "rgb(10, 128, 67)";
     o.c_header.style.color = "rgb(0,0,0)";
     o.c_text.innerHTML = "";
