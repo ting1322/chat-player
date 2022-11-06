@@ -49,6 +49,14 @@ option:
 輸出檔案預設在影片檔旁邊，檔名為影片檔 + .htm。
 json 檔案預設是影片檔名 + live_chat.json，這也是 yt-dlp 下載下來預設的檔名。
 
+# Build from source
+
+1. 需要 golang 1.18
+2. git clone https://github.com/ting1322/chat-player.git
+3. cd chat-player
+4. go build
+5. 得到 chatplayer.exe
+
 # 補充說明
 
 1. 影片必須是 mp4 或 webm，瀏覽器只能播放這兩種。千萬別用 mkv。
