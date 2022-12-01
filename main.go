@@ -19,23 +19,25 @@ var playlivechatjs string
 //go:embed style.css
 var styleCss string
 
-func main() {
-	parseCommandline()
+var option *Option
 
-	fileInfo, err := os.Stat(optionPath)
+func main() {
+	option = parseCommandline()
+
+	fileInfo, err := os.Stat(option.Path)
 	if err != nil {
 		log.Fatalln(err)
 	}
 	if fileInfo.IsDir() {
-		if len(optionChatJson) != 0 ||
-			len(optionSetList) != 0 {
+		if len(option.ChatJson) != 0 ||
+			len(option.SetList) != 0 {
 			log.Fatalln("not support option in directory mode")
 		}
-		webms, err := filepath.Glob(optionPath + "/*.webm")
+		webms, err := filepath.Glob(option.Path + "/*.webm")
 		if err != nil {
 			log.Fatalln(err)
 		}
-		mp4s, err := filepath.Glob(optionPath + "/*.mp4")
+		mp4s, err := filepath.Glob(option.Path + "/*.mp4")
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -52,7 +54,7 @@ func main() {
 		}
 
 	} else {
-		err = processVideo(optionPath)
+		err = processVideo(option.Path)
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -62,7 +64,7 @@ func main() {
 const not_found_json string = "not found .live_chat.json file"
 
 func processVideo(videoFile string) error {
-	var chatJsonFilename string = optionChatJson
+	var chatJsonFilename string = option.ChatJson
 	if len(chatJsonFilename) == 0 {
 		chatJsonFilename = fileNameWithoutExt(videoFile) + ".live_chat.json"
 	}
@@ -74,9 +76,9 @@ func processVideo(videoFile string) error {
 	if err != nil {
 		return err
 	}
-	var outputFilename string = optionOutputName
-	var outDir string = optionOutDir
-	if len(optionOutputName) == 0 {
+	var outputFilename string = option.OutputName
+	var outDir string = option.OutDir
+	if len(option.OutputName) == 0 {
 		outputFilename = videoFile + ".htm"
 	}
 	if len(outDir) > 0 {
@@ -134,7 +136,7 @@ func processVideo(videoFile string) error {
 	htmText = strings.ReplaceAll(htmText, "{{setlist-json}}", setlistJsonText)
 	var js string
 	var css string
-	if optionSplitRes {
+	if option.SplitRes {
 		js = `<script src="play-live-chat.js"></script>`
 		css = `<link rel="stylesheet" type="text/css" href="style.css">`
 		if err := writeResFile(outDir); err != nil {
