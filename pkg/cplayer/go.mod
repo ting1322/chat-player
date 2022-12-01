@@ -1,4 +1,4 @@
-module ting/cplayer
+module github.com/ting1322/chat-player/pkg/cplayer
 
 go 1.18
 

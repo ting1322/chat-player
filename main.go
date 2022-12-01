@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"ting/cplayer"
+	"github.com/ting1322/chat-player/pkg/cplayer"
 )
 
 func parseCommandline() *cplayer.Option {
