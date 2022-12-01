@@ -1,4 +1,4 @@
-package main
+package cplayer
 
 import (
 	_ "embed"
@@ -22,9 +22,9 @@ func (me *FakeDownloader) Download(localPath, url string) string {
 // 聊天室使用 emoji 的紀錄，需要轉換圖片網址為本地檔案，
 // 並且要有 ImgDownloader 曾經下載過得紀錄
 func TestEmoji(t *testing.T) {
-	option = NewOption()
+	var option *Option = NewOption()
 	fd := FakeDownloader{}
-	text, err := preprocessJson(&fd, chatjson, "")
+	text, err := preprocessJson(option, &fd, chatjson, "")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -44,10 +44,10 @@ func TestEmoji(t *testing.T) {
 }
 
 func TestTimeOffset(t *testing.T) {
-	option = NewOption()
+	option := NewOption()
 	option.TimeOffsetInSec = 30
 	fd := FakeDownloader{}
-	text, err := preprocessJson(&fd, chatjson, "")
+	text, err := preprocessJson(option, &fd, chatjson, "")
 	if err != nil {
 		t.Fatal(err)
 	}

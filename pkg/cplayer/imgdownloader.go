@@ -1,4 +1,4 @@
-package main
+package cplayer
 
 import (
 	"io"
@@ -13,7 +13,7 @@ type ImgDownloader interface {
 	Download(localPath, url string) string
 }
 
-type HttpImgDownloader struct {}
+type HttpImgDownloader struct{}
 
 func (me *HttpImgDownloader) Download(localPath, url string) string {
 	if filename, exist := IsLocalFileExist(localPath); exist {
@@ -65,12 +65,18 @@ func (me *HttpImgDownloader) Download(localPath, url string) string {
 
 func GetExtension(contentType string) string {
 	switch contentType {
-	case "image/webp": return ".webp"
-	case "image/jpeg": return ".jpg"
-	case "image/gif": return ".gif"
-	case "image/bmp": return ".bmp"
-	case "image/png": return ".png"
-	default: return ".png"
+	case "image/webp":
+		return ".webp"
+	case "image/jpeg":
+		return ".jpg"
+	case "image/gif":
+		return ".gif"
+	case "image/bmp":
+		return ".bmp"
+	case "image/png":
+		return ".png"
+	default:
+		return ".png"
 	}
 }
 

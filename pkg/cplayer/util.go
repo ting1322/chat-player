@@ -1,11 +1,11 @@
-package main
+package cplayer
 
 import (
-	"net/url"
-	"strings"
-	"path/filepath"
 	"encoding/hex"
 	"golang.org/x/crypto/blake2b"
+	"net/url"
+	"path/filepath"
+	"strings"
 )
 
 // 先前的 python 版本行為，圖片存在 image 目錄，檔名 hash。
@@ -48,7 +48,7 @@ func relPathAsUrl(basedir, filename string) string {
 	if err != nil {
 		urlpath = filename
 	}
-	d,f := filepath.Split(urlpath)
+	d, f := filepath.Split(urlpath)
 	f = url.PathEscape(f)
 	urlpath = filepath.Join(d, f)
 

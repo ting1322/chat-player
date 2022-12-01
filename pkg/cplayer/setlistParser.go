@@ -1,4 +1,4 @@
-package main
+package cplayer
 
 import (
 	"bufio"
@@ -9,8 +9,8 @@ import (
 )
 
 type VideoTimeStamp struct {
-	TimeInMs int `json:"time_in_ms"`
-	Title string  `json:"title"`
+	TimeInMs int    `json:"time_in_ms"`
+	Title    string `json:"title"`
 }
 
 func convertSetlist2Json(filename string) (string, error) {
@@ -45,7 +45,7 @@ func convertSetlist2Json(filename string) (string, error) {
 		second, _ := strconv.Atoi(string(matches[re.SubexpIndex("S")]))
 		title := string(matches[re.SubexpIndex("T")])
 		total_ms := ((((hour * 60) + minute) * 60) + second) * 1000
-		timeList = append(timeList, VideoTimeStamp{ total_ms, title })
+		timeList = append(timeList, VideoTimeStamp{total_ms, title})
 	}
 	jsondata, err := json.Marshal(timeList)
 	return string(jsondata), nil

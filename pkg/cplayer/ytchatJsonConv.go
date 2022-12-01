@@ -1,16 +1,16 @@
-package main
+package cplayer
 
 import (
+	"encoding/json"
 	"log"
+	"path/filepath"
 	"strconv"
 	"strings"
-	"path/filepath"
-	"encoding/json"
 )
 
 type jmap = map[string]any
 
-func preprocessJson(downloader ImgDownloader, jsonText, outDir string) (string, error) {
+func preprocessJson(option *Option, down ImgDownloader, jsonText, outDir string) (string, error) {
 	if option.NoDownloadPic || len(jsonText) < 10 {
 		return jsonText, nil
 	}
@@ -58,7 +58,7 @@ func preprocessJson(downloader ImgDownloader, jsonText, outDir string) (string, 
 						for _, thumbnail := range thumbnails {
 							image_url := thumbnail.(jmap)["url"].(string)
 							filename := hashUrlFilename(image_url)
-							filename = downloader.Download(filepath.Join(outDir, filename), image_url)
+							filename = down.Download(filepath.Join(outDir, filename), image_url)
 							filename, _ = filepath.Rel(outDir, filename)
 							thumbnail.(jmap)["url"] = filename
 						}
@@ -69,7 +69,7 @@ func preprocessJson(downloader ImgDownloader, jsonText, outDir string) (string, 
 				for _, thumbnail := range thumbnails {
 					image_url := thumbnail.(jmap)["url"].(string)
 					filename := hashUrlFilename(image_url)
-					filename = downloader.Download(filepath.Join(outDir, filename), image_url)
+					filename = down.Download(filepath.Join(outDir, filename), image_url)
 					filename, _ = filepath.Rel(outDir, filename)
 					thumbnail.(jmap)["url"] = filename
 				}
@@ -79,13 +79,13 @@ func preprocessJson(downloader ImgDownloader, jsonText, outDir string) (string, 
 	if _, exist := replayChat["videoOffsetTimeMsec"]; exist && option.TimeOffsetInSec > 0 {
 		timeInMs, err := strconv.Atoi(replayChat["videoOffsetTimeMsec"].(string))
 		if err == nil {
-			timeInMs += option.TimeOffsetInSec * 1000;
+			timeInMs += option.TimeOffsetInSec * 1000
 			replayChat["videoOffsetTimeMsec"] = strconv.Itoa(timeInMs)
 		}
 	} else if _, exist := jsonmap["videoOffsetTimeMsec"]; exist && option.TimeOffsetInSec > 0 {
 		timeInMs, err := strconv.Atoi(jsonmap["videoOffsetTimeMsec"].(string))
 		if err == nil {
-			timeInMs += option.TimeOffsetInSec * 1000;
+			timeInMs += option.TimeOffsetInSec * 1000
 			jsonmap["videoOffsetTimeMsec"] = strconv.Itoa(timeInMs)
 		}
 	}
