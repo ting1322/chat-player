@@ -20,7 +20,8 @@
     <div style="display:none">
       <div id="live-chat-item-template" class="live-chat-item">
         <span class="c_time">00:00:00</span><span> </span>
-        <span class="c_name">Unknown Name</span><span>: </span>
+        <span class="c_name">Unknown Name</span>
+        <span class="c_badges"></span><span>: </span>
         <span class="c_content">Unknown content</span>
       </div>
       <!-- class: live-chat-sc or live-chat-sticker -->

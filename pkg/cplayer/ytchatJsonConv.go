@@ -48,6 +48,27 @@ func preprocessJson(option *Option, down ImgDownloader, jsonText, outDir string)
 				continue
 			}
 
+			if n, exist := render["authorBadges"]; exist {
+				authorBadges := n.([]any)
+				if len(authorBadges) > 0 {
+					liveChatAuthorBadgeRenderer := authorBadges[0].(jmap)["liveChatAuthorBadgeRenderer"].(jmap)
+					if n, exist := liveChatAuthorBadgeRenderer["customThumbnail"]; exist {
+						customThumbnail := n.(jmap)
+						if n, exist := customThumbnail["thumbnails"]; exist {
+							thumbnails := n.([]any)
+							for _, thumbnail := range thumbnails {
+								image_url := thumbnail.(jmap)["url"].(string)
+								filename := hashUrlFilename(image_url)
+								filename = down.Download(filepath.Join(outDir, filename), image_url)
+								filename, _ = filepath.Rel(outDir, filename)
+								thumbnail.(jmap)["url"] = filename
+							}
+						}
+
+					}
+				}
+			}
+
 			if _, exist := render["message"]; exist {
 				runs := render["message"].(jmap)["runs"].([]any)
 

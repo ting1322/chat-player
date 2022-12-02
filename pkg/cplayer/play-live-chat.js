@@ -7,6 +7,40 @@ const sc_templ = document.getElementById('live-chat-sc-template');
 const timestamp_templ = document.getElementById('timestamp-template');
 const chat_array = [];
 
+class ChatTextNode
+{
+    constructor(timeInMs) {
+        this.node = chat_templ.cloneNode(true);
+        this.node.removeAttribute('id');
+        this.c_content = this.node.getElementsByClassName('c_content')[0];
+        this.c_name = this.node.getElementsByClassName('c_name')[0];
+        this.c_badges = this.node.getElementsByClassName("c_badges")[0];
+        this.c_time = this.node.getElementsByClassName('c_time')[0];
+        this.c_time.setAttribute('time_in_ms', timeInMs);
+        this.c_time.innerHTML = prettyFormatTime(timeInMs);
+        this.c_time.onclick = comment_time_click;
+    }
+}
+
+class SuperChatNode {
+    constructor(timeInMs) {
+        this.node = sc_templ.cloneNode(true);
+        this.node.removeAttribute('id');
+        this.c_header = this.node.getElementsByClassName('header')[0];
+        this.c_text = this.node.getElementsByClassName('text')[0];
+        this.c_name = this.node.getElementsByClassName('name')[0];
+        this.c_paid = this.node.getElementsByClassName('paid')[0];
+        this.c_time = this.node.getElementsByClassName('c_time')[0];
+        this.c_time.setAttribute('time_in_ms', timeInMs);
+        this.c_time.innerHTML = prettyFormatTime(timeInMs);
+        this.c_time.onclick = comment_time_click;
+    }
+
+    setStickerMode() {
+        this.node.setAttribute("class", "live-chat-sticker");
+    }
+}
+
 function resizeChatDiv() {
     const height = video1.getClientRects()[0].height
     chat_div.style.height = (height-5) + "px";
@@ -91,7 +125,7 @@ async function create_chat_item(json_text) {
 function render_liveChatTextMessage(liveChatTextMessageRenderer, timeInMs)
 {
     var hasText = false;
-    var o = newChatTextNode(timeInMs);
+    var o = new ChatTextNode(timeInMs);
 
     if (!('message' in liveChatTextMessageRenderer)) {
         return;
@@ -114,8 +148,8 @@ function render_liveChatTextMessage(liveChatTextMessageRenderer, timeInMs)
             var image_url = "";
             if ('image' in emoji && 'thumbnails' in emoji.image) {
                 thumbnails = emoji.image.thumbnails;
-                image_url = thumbnails[thumbnails.length-1].url;
-                img = document.createElement('img');
+                let image_url = thumbnails[thumbnails.length-1].url;
+                let img = document.createElement('img');
                 img.setAttribute('src', image_url);
                 img.setAttribute('class', 'emoji');
                 //img.setAttribute('width', '1em');
@@ -134,44 +168,27 @@ function render_liveChatTextMessage(liveChatTextMessageRenderer, timeInMs)
             console.log('unknown authorName');
         }
     }
+    if ('authorBadges' in liveChatTextMessageRenderer) {
+        let authorBadges = liveChatTextMessageRenderer.authorBadges;
+        if (authorBadges.length > 0) {
+            o.c_name.classList.add("member");
+            let liveChatAuthorBadgeRenderer = authorBadges[0].liveChatAuthorBadgeRenderer;
+            if ('customThumbnail' in liveChatAuthorBadgeRenderer &&
+                'thumbnails' in liveChatAuthorBadgeRenderer.customThumbnail) {
+                let thumbnails = liveChatAuthorBadgeRenderer.customThumbnail.thumbnails;
+                let image_url = thumbnails[thumbnails.length-1].url;
+                let img = document.createElement('img');
+                img.setAttribute('src', image_url);
+                o.c_badges.appendChild(img);
+                o.c_badges.classList.add("member");
+            }
+        }
+    }
     if (hasText)
     {
         return o;
     }
     return null;
-}
-
-function newChatTextNode(timeInMs)
-{
-    const o = {};
-    o.node = chat_templ.cloneNode(true);
-    o.node.removeAttribute('id');
-    o.c_content = o.node.getElementsByClassName('c_content')[0];
-    o.c_name = o.node.getElementsByClassName('c_name')[0];
-    o.c_time = o.node.getElementsByClassName('c_time')[0];
-    o.c_time.setAttribute('time_in_ms', timeInMs);
-    o.c_time.innerHTML = prettyFormatTime(timeInMs);
-    o.c_time.onclick = comment_time_click;
-    return o;
-}
-
-class SuperChatNode {
-    constructor(timeInMs) {
-        this.node = sc_templ.cloneNode(true);
-        this.node.removeAttribute('id');
-        this.c_header = this.node.getElementsByClassName('header')[0];
-        this.c_text = this.node.getElementsByClassName('text')[0];
-        this.c_name = this.node.getElementsByClassName('name')[0];
-        this.c_paid = this.node.getElementsByClassName('paid')[0];
-        this.c_time = this.node.getElementsByClassName('c_time')[0];
-        this.c_time.setAttribute('time_in_ms', timeInMs);
-        this.c_time.innerHTML = prettyFormatTime(timeInMs);
-        this.c_time.onclick = comment_time_click;
-    }
-
-    setStickerMode() {
-        this.node.setAttribute("class", "live-chat-sticker");
-    }
 }
 
 function render_liveChatPaidMessage(liveChatPaidMessageRenderer, timeInMs)
