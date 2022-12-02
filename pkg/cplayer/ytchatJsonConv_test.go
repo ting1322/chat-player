@@ -35,10 +35,10 @@ func TestEmoji(t *testing.T) {
 	if !want.MatchString(text) {
 		t.Fatalf("not found pattern, text: %v, \nwant: %#q\n", text, want)
 	}
-	if len(fd.urlList) != 1 {
-		t.Fatal("download item count")
+	if len(fd.urlList) != 3 {
+		t.Fatalf("download item count, len(fd.urlList) = %v", len(fd.urlList))
 	}
-	if fd.urlList[0] != "https://www.youtube.com/s/gaming/emoji/0f0cae22/emoji_u1f31a.svg" {
+	if fd.urlList[2] != "https://www.youtube.com/s/gaming/emoji/0f0cae22/emoji_u1f31a.svg" {
 		t.Fatal("download item")
 	}
 }
