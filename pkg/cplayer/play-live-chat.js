@@ -432,3 +432,4 @@ init_js_from_embedded();
 init_setlist_from_embedded();
 
 setTimeout(sync_live_chat_work, 500);
+setTimeout(resizeChatDiv, 500); // for the mp4 without video (m4a?), the resize event will never trigger.
