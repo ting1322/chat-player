@@ -13,9 +13,12 @@
         <video id='video1' controls>
           <source src="{{video}}" type="{{video-type}}">
         </video>
-        <div id="live-chat"></div>
+        <div id="live-chat">/div>
       </div>
       <div id="timestamp"></div>
+      <div id="option">
+        <input id="option-sync" type="checkbox" checked>聊天室自動捲動</input>
+      </div>
     </div>
     <div style="display:none">
       <div id="live-chat-item-template" class="live-chat-item">

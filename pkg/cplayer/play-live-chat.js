@@ -5,6 +5,7 @@ const timestamp_div = document.getElementById('timestamp');
 const chat_templ = document.getElementById('live-chat-item-template');
 const sc_templ = document.getElementById('live-chat-sc-template');
 const timestamp_templ = document.getElementById('timestamp-template');
+const option_sync = document.getElementById('option-sync');
 const chat_array = [];
 
 class ChatTextNode
@@ -416,7 +417,7 @@ function sync_live_chat() {
 }
 
 function sync_live_chat_work() {
-    if (!video1.paused) {
+    if (!video1.paused && option_sync.checked) {
         sync_live_chat();
     }
     setTimeout(sync_live_chat_work, 500);
