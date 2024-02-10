@@ -43,6 +43,7 @@ func ProcessVideo(option *Option, videoFile string) error {
 	var videoType string
 	switch filepath.Ext(videoFile) {
 	case ".mp4":
+	case ".m4a":
 		videoType = "video/mp4"
 	case ".webm":
 		videoType = "video/webm"
