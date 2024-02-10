@@ -2,14 +2,21 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
+
 	"github.com/ting1322/chat-player/pkg/cplayer"
+)
+
+var (
+	programVersion string = "1.x-dev"
 )
 
 func parseCommandline() *cplayer.Option {
 	option := cplayer.NewOption()
+	var argVersion bool
 	flag.StringVar(&option.ChatJson, "chat-json", "", "live chat json file (download by yt-dlp)")
 	flag.IntVar(&option.TimeOffsetInSec, "offset", 0, "time offset for live chat (second)")
 	flag.StringVar(&option.SetList, "set-list", "", "時間軸 txt 檔")
@@ -17,7 +24,13 @@ func parseCommandline() *cplayer.Option {
 	flag.StringVar(&option.OutDir, "out-dir", "", "輸出目錄，預設是目前工作目錄")
 	flag.BoolVar(&option.NoDownloadPic, "no-download-pic", false, "不要把聊天室貼圖抓下來 (每次開網頁使用youtube檔案)")
 	flag.BoolVar(&option.SplitRes, "split-res", false, "分離 javascript, css 檔案，預設是嵌在html裡面")
+	flag.BoolVar(&argVersion, "version", false, "show program version and exit.")
 	flag.Parse()
+
+	if argVersion {
+		fmt.Println("chatplayer", programVersion)
+		return nil
+	}
 
 	if len(flag.Args()) > 0 {
 		option.Path = flag.Arg(0)
@@ -27,6 +40,9 @@ func parseCommandline() *cplayer.Option {
 
 func main() {
 	var option = parseCommandline()
+	if option == nil {
+		return
+	}
 
 	fileInfo, err := os.Stat(option.Path)
 	if err != nil {

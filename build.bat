@@ -1,5 +1,8 @@
 del chatplayer.exe
 
-go test github.com/ting1322/chat-player/pkg/cplayer
+git rev-parse --short HEAD > %TEMP%\git-rev.txt
 
-go build
+set /P VER1=<version.txt
+set /P VER2=<%TEMP%\git-rev.txt
+
+go build -ldflags "-X main.programVersion=%VER1%-%VER2%"
