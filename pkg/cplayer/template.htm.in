@@ -13,7 +13,7 @@
         <video id='video1' controls>
           <source src="{{video}}" type="{{video-type}}">
         </video>
-        <div id="live-chat">/div>
+        <div id="live-chat"></div>
       </div>
       <div id="timestamp"></div>
       <div id="option">
