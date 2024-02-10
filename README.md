@@ -89,7 +89,14 @@ json 檔案預設是影片檔名 + live_chat.json，這也是 yt-dlp 下載下�
 
 從新到舊
 
+## 2024-02-10 v1.0.0
+
+1. 加入 checkbox 可以隨時關閉聊天室自動捲動。
+   有時候會想要一邊撥影片，一邊用滑鼠捲動聊天室。
+2. 很久沒動這份程式，版號就從 1.0.0 開始吧。
+
 ## 2022-11-06 v0.5.2
+
 1. 支援顯示 super sticker、member free message、membership gift。
 2. play-live-chat.js 預設嵌入 htm 之中，這個 js 檔案可以刪掉了。
    (新增參數 -split-res 模仿舊版行為，分離的 js 唯一的好處是 debug)
