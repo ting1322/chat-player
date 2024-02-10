@@ -15,6 +15,6 @@ go build -o chatplayer -ldflags "-X main.programVersion=$ver"
 
 zip chatplayer-linux-x86-64.zip chatplayer
 
-GOOS=windows go build -o chatplayer -ldflags "-X main.programVersion=$ver"
+GOOS=windows go build -o chatplayer.exe -ldflags "-X main.programVersion=$ver"
 
 zip chatplayer-windows-x86-64.zip chatplayer.exe
