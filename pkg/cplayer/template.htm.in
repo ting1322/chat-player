@@ -17,7 +17,7 @@
       </div>
       <div id="timestamp"></div>
       <div id="option">
-        <input id="option-sync" type="checkbox" checked>聊天室自動捲動</input>
+        <label><input id="option-sync" type="checkbox" checked></input>聊天室自動捲動</label>
       </div>
     </div>
     <div style="display:none">
