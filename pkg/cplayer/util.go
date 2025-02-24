@@ -3,7 +3,7 @@ package cplayer
 import (
 	"encoding/hex"
 	"golang.org/x/crypto/blake2b"
-	"net/url"
+	//"net/url"
 	"path/filepath"
 	"strings"
 )
@@ -49,7 +49,7 @@ func relPathAsUrl(basedir, filename string) string {
 		urlpath = filename
 	}
 	d, f := filepath.Split(urlpath)
-	f = url.PathEscape(f)
+	//f = url.PathEscape(f)
 	urlpath = filepath.Join(d, f)
 
 	// windows 的路徑沒辦法直接放進網頁，要改成正斜線
